@@ -1,0 +1,6 @@
+virtualenv==16.6.1
+django
+djangorestframework
+psycopg2
+requests
+django-cors-headers

@@ -1,0 +1,6 @@
+venv/*
+.idea/*
+docker/src
+*.pyc
+*initial.py
+src/
