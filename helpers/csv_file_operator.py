@@ -11,3 +11,9 @@ def read_movies_ids(file_path):
 
 # ids = read_movies_ids(file_path)
 # print(ids)
+
+def append_to_file(file_path, line):
+    with open(file_path, "a") as file:
+        file.write(line+'\n')
+
+# append_to_file('Data/genres.csv', 'abc')

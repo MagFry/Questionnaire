@@ -5,3 +5,10 @@
 3. python src/manage.py migrate 
 4. python src/manage.py runserver 8000
 ```
+## Generate file with movie genres
+
+```
+rm -f Data/genres.csv
+export TMDB_API_KEY="YOUR_KEY_HERE"
+python helpers/movie_genres_getter.py
+```
