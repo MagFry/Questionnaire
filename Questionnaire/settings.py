@@ -75,13 +75,14 @@ WSGI_APPLICATION = 'Questionnaire.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+piis_db_host = os.environ.get('PIIS_DB_HOST', 'localhost')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'Questionnaire',
         'USER': 'postgres',
         'PASSWORD': 'qwerty12345',
-        'HOST': 'localhost',
+        'HOST': piis_db_host,
         'PORT': '5432',
     }
 }

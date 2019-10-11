@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -eu
+
+command="$1"
+case "${command}" in
+  docker_build)
+      docker build -t piis-web:0.1.0 .
+      exit $?
+      ;;
+  up)
+      docker-compose -f ./docker-compose.yml -p piis up -d
+      exit $?
+      ;;
+  down)
+      docker-compose -f ./docker-compose.yml -p piis down
+      exit $?
+      ;;
+  *)
+      echo "Invalid command: '${command}'"
+      exit 1
+      ;;
+esac
+set +e
