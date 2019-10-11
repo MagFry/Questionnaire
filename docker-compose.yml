@@ -1,0 +1,21 @@
+version: '2.2'
+services:
+  db:
+    init: true
+    image: postgres:11.2-alpine
+    environment:
+      - POSTGRES_PASSWORD=qwerty12345
+      - POSTGRES_DB=Questionnaire
+    ports:
+      - 5432:5432
+  web:
+    init: true
+    image: piis-web:0.1.0
+    volumes:
+      - ${PWD}:/usr/src/app
+    environment:
+      - PIIS_DB_HOST=db
+    ports:
+      - 8000:8000
+    links:
+      - db:db

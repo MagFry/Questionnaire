@@ -12,3 +12,16 @@ rm -f Data/genres.csv
 export TMDB_API_KEY="YOUR_KEY_HERE"
 python helpers/movie_genres_getter.py
 ```
+
+### Run
+
+Deploy the website locally on Linux using Docker containers:
+```
+./tasks docker_build
+./tasks up
+```
+
+Stop and remove the containers:
+```
+./tasks down
+```
