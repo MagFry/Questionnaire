@@ -4,3 +4,5 @@ djangorestframework
 psycopg2
 requests
 django-cors-headers
+numpy
+pandas
