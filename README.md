@@ -2,9 +2,16 @@
 ```
 1. pip install -r requirements.txt
 2. python src/manage.py makemigrations
-3. python src/manage.py migrate 
-4. python src/manage.py runserver 8000
+3. python src/manage.py migrate
+4. python src/manage.py populate_db
+5. python src/manage.py runserver 8000
 ```
+
+There is also a command to delete all the movies (rows) from table: Movies:
+```
+python src/manage.py delete_movies.py
+```
+
 ## Generate file with movie genres
 
 ```
