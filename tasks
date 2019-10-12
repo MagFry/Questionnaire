@@ -12,6 +12,10 @@ case "${command}" in
       docker-compose -f ./docker-compose.yml -p piis up -d
       exit $?
       ;;
+  test)
+      docker exec piis_web_1 bash -c 'cd /usr/src/app && python manage.py test -v 2'
+      exit $?
+      ;;
   down)
       docker-compose -f ./docker-compose.yml -p piis down
       exit $?

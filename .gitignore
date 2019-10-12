@@ -4,3 +4,4 @@ docker/src
 *.pyc
 *initial.py
 src/
+.pycharm
