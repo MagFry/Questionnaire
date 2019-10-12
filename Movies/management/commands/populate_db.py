@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from Movies.models import Movies
+import os
 
 # Why this file exists?
 # https://eli.thegreenplace.net/2014/02/15/programmatically-populating-a-django-database
@@ -37,12 +38,14 @@ class Command(BaseCommand):
 
 
             for item in list:
-
                 id = item.get('file_id')
                 id_tmdb = item.get('file_id_tmdb')
                 title = item.get('title').rstrip()
 
                 self.stdout.write('Adding movie: "%s;%s;%s"' % (id,id_tmdb,title))
-
                 movie_l = Movies.objects.create(movie_id=id, movie_id_tmdb=id_tmdb, movie_title=title)
+                if os.environ.get('PIIS_TEST') == 'true':
+                    self.stdout.write('PIIS_TEST set to true, no more movies will be added')
+                    break
+
             self.stdout.write(self.style.SUCCESS('Successfully added all movies to db'))
