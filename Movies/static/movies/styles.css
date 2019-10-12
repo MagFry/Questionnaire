@@ -1,0 +1,83 @@
+            body {
+  background-image: url("https://images.pexels.com/photos/33999/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-color: #f2f2f2; /* Used if the image is unavailable */
+  /* Full height */
+  max-width: 100%;
+  height: auto;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+  padding-top: 20;
+
+
+}
+
+.navbar-default .navbar-brand {
+    background-color: #e55454;
+}
+
+.profile-form{
+    padding-top: 4rem;
+}
+
+.done_form{
+    padding-top: 15rem;
+    padding-bottom: 5.5rem;
+}
+
+.space{
+    margin-top: 4rem;
+}
+
+.create-group-button{
+    margin-left: 0;
+}
+
+.message_form{
+    padding-top: 15rem;
+    padding-bottom: 5.5rem;
+}
+
+.my-form
+{
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.my-form .row
+{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.login-form
+{
+    padding-top: 10rem;
+    padding-bottom: 5.5rem;
+}
+
+.login-form .row
+{
+    margin-left: 20;
+    margin-right: 100;
+}
+
+.registration_done{
+  margin: auto;
+      width: 50%;
+
+}
+
+.chat{
+  margin: auto;
+  width: 50%;
+
+}
+
+.footer-form{
+padding-bottom: 14rem;
+    bottom:0;
+}
+
+
