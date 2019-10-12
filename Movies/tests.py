@@ -1,14 +1,66 @@
 from django.test import TestCase
 from Movies.models import Movies
+import Movies.tmdb_api_client as tmdb_api_client
+import os.path
 
 # https://docs.djangoproject.com/en/2.2/topics/testing/overview/
 # https://docs.djangoproject.com/en/2.2/intro/tutorial05/
 
+class TmdbApiClient(TestCase):
+    def test_get_movie_json(self):
+        """Api Client can get info about a movie as JSON"""
+        json = tmdb_api_client.get_movie_json(551, tmdb_api_client.api_key_v3)
+        self.assertEqual(json['genres'], [{"id":28,"name":"Action"},{"id":12,"name":"Adventure"},{"id":18,"name":"Drama"}])
+        self.assertEqual(json['adult'], False)
+        self.assertEqual(json['release_date'], "1972-12-01")
+
+    def test_get_movie_genres(self):
+        """Api Client can get movie genres as an array"""
+        json = {}
+        json['genres'] = [{'id': 18, 'name': 'Drama'},{'id': 19, 'name': 'sth'}]
+        genres = tmdb_api_client.get_movie_genres(json)
+        self.assertEqual(genres, ['Drama', 'sth'])
+
+    def test_get_movie_genres_integration(self):
+        """Api Client can get movie genres as an array"""
+        json = tmdb_api_client.get_movie_json(551, tmdb_api_client.api_key_v3)
+        genres = tmdb_api_client.get_movie_genres(json)
+        self.assertEqual(genres, ['Action', 'Adventure', 'Drama'])
+
+    def test_get_movie_genres_comma_separated(self):
+        """Api Client can get movie genres as comma separated string"""
+        json = {}
+        json['genres'] = [{"id":28,"name":"Action"},{"id":12,"name":"Adventure"},{"id":18,"name":"Drama"}]
+        genres = tmdb_api_client.get_movie_genres_comma_separated(json)
+        self.assertEqual(genres, 'Action,Adventure,Drama')
+
+    def test_get_movie_genres_comma_separated_integration(self):
+        """Api Client can get movie genres as comma separated string"""
+        json = tmdb_api_client.get_movie_json(551, tmdb_api_client.api_key_v3)
+        genres = tmdb_api_client.get_movie_genres_comma_separated(json)
+        self.assertEqual(genres, 'Action,Adventure,Drama')
+
+    def test_download_poster(self):
+        """Api Client can download poster image"""
+        poster_path = 'adw6Lq9FiC9zjYEpOqfq03ituwp.jpg'
+        if os.path.isfile('media/'+poster_path):
+            os.remove('media/'+poster_path)
+        json = {}
+        json['poster_path'] = poster_path
+        tmdb_api_client.download_poster(json)
+        self.assertEqual(os.path.isfile('media/'+poster_path), True)
+
 class MoviesTestCase(TestCase):
     def setUp(self):
-        Movies.objects.create(movie_id=1, movie_id_tmdb=1, movie_title="title1", movie_genres="Comedy,Horror")
-        Movies.objects.create(movie_id=2, movie_id_tmdb=2, movie_title="title2", movie_genres="Horror")
-        Movies.objects.create(movie_id=3, movie_id_tmdb=3, movie_title="title3", movie_genres="Thriller")
+        Movies.objects.create(movie_id=1, movie_id_tmdb=1, movie_title="title1",
+         movie_genres="Comedy,Horror", overview="movie1", poster_path="Data/movie1.jpg",
+         release_date="1999-10-15", vote_average=5.0)
+        Movies.objects.create(movie_id=2, movie_id_tmdb=2, movie_title="title2",
+         movie_genres="Horror", overview="movie2", poster_path="Data/movie2.jpg",
+         release_date="1999-10-15", vote_average=5.0)
+        Movies.objects.create(movie_id=3, movie_id_tmdb=3, movie_title="title3",
+         movie_genres="Thriller", overview="movie3", poster_path="Data/movie3.jpg",
+         release_date="1999-10-15", vote_average=5.0)
 
     def test_movie_get_genres_as_array(self):
         """Movie can return its genres as an array"""

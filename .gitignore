@@ -5,3 +5,4 @@ docker/src
 *initial.py
 src/
 .pycharm
+media/*.jpg

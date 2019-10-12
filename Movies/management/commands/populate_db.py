@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from Movies.models import Movies
+import Movies.tmdb_api_client as tmdb_api_client
 import os
 
 # Why this file exists?
@@ -42,8 +43,19 @@ class Command(BaseCommand):
                 id_tmdb = item.get('file_id_tmdb')
                 title = item.get('title').rstrip()
 
+                # get additional information using TMDB API
+                json = tmdb_api_client.get_movie_json(id_tmdb, tmdb_api_client.api_key_v3)
+                genres = tmdb_api_client.get_movie_genres_comma_separated(json)
+
                 self.stdout.write('Adding movie: "%s;%s;%s"' % (id,id_tmdb,title))
-                movie_l = Movies.objects.create(movie_id=id, movie_id_tmdb=id_tmdb, movie_title=title)
+                movie_l = Movies.objects.create(
+                    movie_id=id, movie_id_tmdb=id_tmdb, movie_title=title,
+                    movie_genres=genres, overview=json['overview'],
+                    poster_path=json['poster_path'], release_date=json['release_date'],
+                    vote_average=float(json['vote_average']))
+                self.stdout.write('Downloading poster image')
+                tmdb_api_client.download_poster(json)
+
                 if os.environ.get('PIIS_TEST') == 'true':
                     self.stdout.write('PIIS_TEST set to true, no more movies will be added')
                     break

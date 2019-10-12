@@ -2,6 +2,8 @@
 
 set -eu
 
+export TMDB_API_KEY=$(cat ~/.bashrc.d/tmdb)
+
 command="$1"
 case "${command}" in
   docker_build)
