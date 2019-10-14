@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Page Title</title>
-</head>
-<body>
-
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
-
+<body ng-app="dragDrop" ng-controller="DragDropController">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="h2">{{ message }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4" ng-repeat="bin in [1, 2, 3]">
+                <div id="bin{{ bin }}" class="bin" bin="bin" droppable drop="handleDrop">{{ bin }}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4" ng-repeat="item in [1, 2, 3]">
+                <div id="item{{ item }}" class="item" draggable item="item">{{ item }}</div>
+            </div>
+        </div>
+    </div>
 </body>
-</html>

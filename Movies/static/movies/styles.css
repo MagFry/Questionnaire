@@ -1,5 +1,4 @@
             body {
-  background-image: url("https://images.pexels.com/photos/33999/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
   background-color: #f2f2f2; /* Used if the image is unavailable */
   /* Full height */
   max-width: 100%;
@@ -79,5 +78,4 @@
 padding-bottom: 14rem;
     bottom:0;
 }
-
 
