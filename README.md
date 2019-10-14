@@ -2,19 +2,19 @@
 ```
 0. export TMDB_API_KEY="YOUR_KEY_HERE"
 1. pip install -r requirements.txt
-2. python src/manage.py makemigrations
-3. python src/manage.py migrate
-4. python src/manage.py populate_db
-5. python src/manage.py runserver 8000
+2. python manage.py makemigrations
+3. python manage.py migrate
+4. python manage.py populate_db
+5. python manage.py runserver 8000
 ```
 
 There is also a command to delete all the movies (rows) from table: Movies:
 ```
-python src/manage.py delete_movies
+python manage.py delete_movies
 ```
 and to list all the movies in table: Movies:
 ```
-python src/manage.py list_movies
+python manage.py list_movies
 ```
 
 Also, if you want to just test that populate_db works, make it run in a test mode,
