@@ -1,23 +1,49 @@
 {% extends 'base_layout.html' %}
 
-{% block content %}
 
+{% block content %}
 <div class="jumbotron text-center container">
   <h1>Hello!</h1>
   <p>Welcome to our poll about movies. We are so happy you are here!</p>
   <p>Please enter your username and press Submit to get started.</p>
-  <form action="/movies/movie_list/" method="post">
-    {% csrf_token %}
-    <div class="form-group text-left">
-      <!-- <label for="exampleInputUsername1">Username</label> -->
-      <input id="your_name" type="text" name="your_name" type="username" class="form-control" aria-describedby="usernameHelp" placeholder="Enter username">
+<main class="my-form">
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">Create user</div>
+                        <div class="card-body">
+                            <form name="my-form" onsubmit="return validform()" action={% url 'user:name' %} method="post">
+
+                                {% csrf_token %}
+                                {% for field in form %}
+
+                                {% if field.name == 'user_name' %}
+                                <div class="form-group row">
+                                    <label for="user_name" class="col-md-4 col-form-label text-md-right">Username</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="user_name" class="form-control" name="user_name">
+                                    </div>
+                                </div>
+                                {% endif %}
+
+
+                                {% endfor %}
+
+
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                        Create
+                                        </button>
+                                    </div>
+
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+
+</main>
 </div>
-{% endblock %}
-
-
-{% block navbar %}
-
 {% endblock %}
