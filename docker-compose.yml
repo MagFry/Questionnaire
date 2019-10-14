@@ -15,6 +15,7 @@ services:
       - ${PWD}:/usr/src/app
     environment:
       - PIIS_DB_HOST=db
+      - TMDB_API_KEY=${TMDB_API_KEY}
     ports:
       - 8000:8000
     links:

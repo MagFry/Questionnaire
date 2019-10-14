@@ -2,6 +2,8 @@
 
 set -eu
 
+export TMDB_API_KEY=$(cat ~/.bashrc.d/tmdb)
+
 command="$1"
 case "${command}" in
   docker_build)
@@ -14,6 +16,11 @@ case "${command}" in
       ;;
   test)
       docker exec piis_web_1 bash -c 'cd /usr/src/app && python manage.py test -v 2'
+      exit $?
+      ;;
+  itest)
+      # use testinfra to test commands
+      docker exec piis_web_1 bash -c 'cd /usr/src/app && py.test -v test/test_commands.py'
       exit $?
       ;;
   down)

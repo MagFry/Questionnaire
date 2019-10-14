@@ -9,6 +9,15 @@ class Movies(models.Model):
     movie_title = models.CharField(max_length=200)
     # comma separated list of genres, e.g. Comedy,Horror
     movie_genres = models.CharField(max_length=800)
+    # a string with movie description
+    overview = models.CharField(max_length=3000)
+    # path to local image file, e.g. "adw6Lq9FiC9zjYEpOqfq03ituwp.jpg"
+    # those files will be put to media/ directory
+    poster_path = models.CharField(max_length=500)
+    # e.g. "1999-10-15"
+    release_date = models.CharField(max_length=10)
+    # e.g. 8.4
+    vote_average = models.FloatField()
 
 
     def __str__(self):
