@@ -1,6 +1,23 @@
-<form action="/movies/movie_list/" method="post">
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+<div class="jumbotron text-center container">
+  <h1>Hello!</h1>
+  <p>Welcome to our poll about movies. We are so happy you are here!</p>
+  <p>Please enter your username and press Submit to get started.</p>
+  <form action="/movies/movie_list/" method="post">
     {% csrf_token %}
-    <label for="your_name">Your name: </label>
-    <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
-    <input type="submit" value="OK">
-</form>
+    <div class="form-group text-left">
+      <!-- <label for="exampleInputUsername1">Username</label> -->
+      <input id="your_name" type="text" name="your_name" type="username" class="form-control" aria-describedby="usernameHelp" placeholder="Enter username">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+{% endblock %}
+
+
+{% block navbar %}
+
+{% endblock %}
