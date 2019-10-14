@@ -17,6 +17,12 @@ and to list all the movies in table: Movies:
 python manage.py list_movies
 ```
 
+Same for users:
+```
+python manage.py delete_users
+python manage.py list_users
+```
+
 Also, if you want to just test that populate_db works, make it run in a test mode,
  (this will add only one movie):
 ```
