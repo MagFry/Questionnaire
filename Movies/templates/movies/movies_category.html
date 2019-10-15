@@ -1,6 +1,8 @@
 {% extends 'base_layout.html' %}
 {% block content %}
 
+<p>You are filling the survey as: {{ request.session.user_name }}</p>
+<p>Movies category: {{ category }}</p>
  {% for movie in movies %}
 
 <div class="row">
@@ -48,7 +50,7 @@
 {% endfor %}
 <div class="row">
 	  <div class="col-sm-12">
-            <a href="{% url 'movie:index' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Next page</a>
+            <a href="{% url 'movie:collect_ratings' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Next page</a>
       </div>
 </div>
 {% endblock %}

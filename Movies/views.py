@@ -21,14 +21,33 @@ def movie_list(request):
 def index(request):
     return render(request, 'movies/index.html')
 
-def horror_movies(request):
-    movie_type = 'Horror'
-    arr = []
-    movie = Movies.get_movies_by_genre(movie_type, arr )
-    return render(request, 'movies/movies_horror.html', {'movies': movie})
+movies_categories = [
+    { 'movie_type': 'Horror', 'genres_to_be_excluded': [] },
+    { 'movie_type': 'Mystery', 'genres_to_be_excluded': ['Horror'] }
+]
 
-def mystery_movies(request):
-    movie_type = 'Mystery'
-    arr = ['Horror']
-    movie = Movies.get_movies_by_genre(movie_type, arr )
-    return render(request, 'movies/movies_mystery.html', {'movies': movie})
+def collect_ratings(request):
+    # TODO: implement collecting the ratings
+
+    # render new page with movies to be rated
+    request.session['movies_category_index'] = int(request.session.get('movies_category_index',0)) + 1
+    if int(request.session['movies_category_index']) == len(movies_categories):
+        return render(request, 'movies/bye.html')
+    else:
+        movie_category = movies_categories[request.session['movies_category_index']]
+        movie_type = movie_category['movie_type']
+        genres_to_be_excluded = movie_category['genres_to_be_excluded']
+        movies = Movies.get_movies_by_genre(movie_type, genres_to_be_excluded )
+        return render(request, 'movies/movies_category.html',
+            {'movies': movies, 'category': movie_type})
+
+# first page with ratings
+def first_movies_category(request):
+    request.session['movies_category_index'] = 0
+
+    movie_category = movies_categories[request.session['movies_category_index']]
+    movie_type = movie_category['movie_type']
+    genres_to_be_excluded = movie_category['genres_to_be_excluded']
+    movies = Movies.get_movies_by_genre(movie_type, genres_to_be_excluded )
+    return render(request, 'movies/movies_category.html',
+        {'movies': movies, 'category': movie_type})
