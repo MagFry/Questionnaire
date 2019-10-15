@@ -15,3 +15,12 @@ def test_command_populate_db(host):
     cmd = host.run('python manage.py delete_movies')
     # this is a poster file for the 1st movie (12 Angry Men)
     assert not host.file('media/3W0v956XxSG5xgm7LB6qu8ExYJ2.jpg').exists
+
+def test_command_delete_users(host):
+    cmd = host.run('python manage.py delete_users')
+    assert cmd.succeeded
+    assert 'Successfully deleted all users from db' in cmd.stdout.rstrip()
+
+def test_command_list_users(host):
+    cmd = host.run('python manage.py list_users')
+    assert cmd.succeeded
