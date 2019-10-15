@@ -25,16 +25,14 @@ def get_name(request):
 
             users_with_that_name = Users.objects.filter(user_name=user_name_local)
             if len(users_with_that_name) != 0:
-                return HttpResponseBadRequest(
-                    'Username: %s is already used, please choose another name' % (user_name_local))
-                # TODO: redirect, after 5s to the start page
+                return render(request, 'users/wrong_name.html')
 
             # add new user to DB
             new_user.save()
             return redirect('movies/first_movies_category')
         else:
-            return HttpResponseBadRequest('The user name was empty, please try again')
-            # TODO: redirect, after 5s to the start page
+            return render(request, 'users/empty_name.html')
+        
     else:
         # if a GET (or any other method) we'll create a blank form
         form = forms.NameForm()
