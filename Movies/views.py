@@ -20,3 +20,15 @@ def movie_list(request):
 
 def index(request):
     return render(request, 'movies/index.html')
+
+def horror_movies(request):
+    movie_type = 'Horror'
+    arr = []
+    movie = Movies.get_movies_by_genre(movie_type, arr )
+    return render(request, 'movies/movies_horror.html', {'movies': movie})
+
+def mystery_movies(request):
+    movie_type = 'Mystery'
+    arr = ['Horror']
+    movie = Movies.get_movies_by_genre(movie_type, arr )
+    return render(request, 'movies/movies_mystery.html', {'movies': movie})

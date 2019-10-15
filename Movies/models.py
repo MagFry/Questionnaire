@@ -47,7 +47,7 @@ class Movies(models.Model):
     # their genres are not in excluded_genres_arr
     # (this method will be used to produce different views, e.g.
     # a view with movies that are romance, but not comedy and not horror)
-    def get_movies_by_genre(self, genre, excluded_genres_arr):
+    def get_movies_by_genre(genre, excluded_genres_arr):
         movies_in_db = Movies.objects.all()
         movies_to_be_returned = []
         for movie in movies_in_db:
