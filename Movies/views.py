@@ -22,8 +22,20 @@ def index(request):
     return render(request, 'movies/index.html')
 
 movies_categories = [
-    { 'movie_type': 'Horror', 'genres_to_be_excluded': [] },
-    { 'movie_type': 'Mystery', 'genres_to_be_excluded': ['Horror'] }
+    {'movie_type': 'Horror', 'genres_to_be_excluded': []},
+    {'movie_type': 'Mystery', 'genres_to_be_excluded': ['Horror']},
+    {'movie_type': 'Romance', 'genres_to_be_excluded': ['Horror, Mystery']},
+    {'movie_type': 'Adventure', 'genres_to_be_excluded': ['Horror, Mystery', 'Romance']},
+    {'movie_type': 'Western', 'genres_to_be_excluded': ['Horror, Mystery', 'Romance', 'Adventure']},
+    {'movie_type': 'Crime', 'genres_to_be_excluded': ['Horror, Mystery', 'Romance', 'Adventure', 'Western']},
+    {'movie_type': 'Science Fiction', 'genres_to_be_excluded': ['Horror, Mystery', 'Romance', 'Adventure', 'Western', 'Crime']},
+    {'movie_type': 'Fantasy', 'genres_to_be_excluded': ['Horror, Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi']},
+    {'movie_type': 'Comedy', 'genres_to_be_excluded': ['Horror, Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi', 'Fantasy']},
+    {'movie_type': 'Family', 'genres_to_be_excluded': ['Horror, Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi', 'Fantasy', 'Comedy']},
+    {'movie_type': 'History', 'genres_to_be_excluded': ['Horror, Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi', 'Fantasy', 'Comedy', 'Family']},
+    {'movie_type': 'War', 'genres_to_be_excluded': ['Horror, Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi', 'Fantasy', 'Comedy', 'Family', 'History']},
+    {'movie_type': 'Drama', 'genres_to_be_excluded': ['Horror, Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi', 'Fantasy', 'Comedy', 'Family', 'History', 'War']},
+
 ]
 
 def collect_ratings(request):
