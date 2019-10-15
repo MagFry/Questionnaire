@@ -7,20 +7,6 @@ import json
 from django.contrib.auth.decorators import login_required
 
 
-def movie_list(request):
-    movie = Movies.objects.filter(movie_id=1)
-    return render(request, 'movies/movies_list.html', {'movies':movie})
-    if request.method == "POST":
-        your_name = request.POST["your_name"]
-        movie = Movies.objects.filter(movie_id=1)
-        return render(request, 'movies/movies_list.html', {'movies':movie, 'your_name': your_name})
-    else:
-        movie = Movies.objects.filter(movie_id=1)
-        return render(request, 'movies/movies_list.html', {'movies':movie})
-
-def index(request):
-    return render(request, 'movies/index.html')
-
 movies_categories = [
     {'movie_type': 'Horror', 'genres_to_be_excluded': []},
     {'movie_type': 'Mystery', 'genres_to_be_excluded': ['Horror']},
