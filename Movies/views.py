@@ -22,9 +22,8 @@ def index(request):
     return render(request, 'movies/index.html')
 
 movies_categories = [
-    { 'movie_type': 'Horror', 'genres_to_be_excluded': [], 'this_page': 'movies/movies_category.html' },
-    { 'movie_type': 'Mystery', 'genres_to_be_excluded': ['Horror'], 'this_page': 'movies/movies_category.html' },
-    {  'this_page': 'movies/index.html' },
+    { 'movie_type': 'Horror', 'genres_to_be_excluded': [] },
+    { 'movie_type': 'Mystery', 'genres_to_be_excluded': ['Horror'] }
 ]
 
 def collect_ratings(request):
@@ -32,12 +31,15 @@ def collect_ratings(request):
 
     # render new page with movies to be rated
     request.session['movies_category_index'] = int(request.session.get('movies_category_index',0)) + 1
-    movie_category = movies_categories[request.session['movies_category_index']]
-    movie_type = movie_category['movie_type']
-    genres_to_be_excluded = movie_category['genres_to_be_excluded']
-    movies = Movies.get_movies_by_genre(movie_type, genres_to_be_excluded )
-    return render(request, movie_category['this_page'],
-        {'movies': movies, 'category': movie_type})
+    if int(request.session['movies_category_index']) == len(movies_categories):
+        return render(request, 'movies/bye.html')
+    else:
+        movie_category = movies_categories[request.session['movies_category_index']]
+        movie_type = movie_category['movie_type']
+        genres_to_be_excluded = movie_category['genres_to_be_excluded']
+        movies = Movies.get_movies_by_genre(movie_type, genres_to_be_excluded )
+        return render(request, 'movies/movies_category.html',
+            {'movies': movies, 'category': movie_type})
 
 # first page with ratings
 def first_movies_category(request):
@@ -47,5 +49,5 @@ def first_movies_category(request):
     movie_type = movie_category['movie_type']
     genres_to_be_excluded = movie_category['genres_to_be_excluded']
     movies = Movies.get_movies_by_genre(movie_type, genres_to_be_excluded )
-    return render(request, movie_category['this_page'],
+    return render(request, 'movies/movies_category.html',
         {'movies': movies, 'category': movie_type})

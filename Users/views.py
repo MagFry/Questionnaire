@@ -31,7 +31,7 @@ def get_name(request):
 
             # add new user to DB
             new_user.save()
-            return redirect('movies/movie_list')
+            return redirect('movies/first_movies_category')
         else:
             return HttpResponseBadRequest('The user name was empty, please try again')
             # TODO: redirect, after 5s to the start page
