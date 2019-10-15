@@ -32,7 +32,7 @@ def get_name(request):
             return redirect('movies/first_movies_category')
         else:
             return render(request, 'users/empty_name.html')
-        
+
     else:
         # if a GET (or any other method) we'll create a blank form
         form = forms.NameForm()
