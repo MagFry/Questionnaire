@@ -46,6 +46,7 @@ def collect_ratings(request):
         movie_type = movie_category['movie_type']
         genres_to_be_excluded = movie_category['genres_to_be_excluded']
         movies = Movies.get_movies_by_genre(movie_type, genres_to_be_excluded )
+        request.session['movies_rated'] = int(request.session['movies_rated']) + len(movies)
         return render(request, 'movies/movies_category.html',
             {'movies': movies, 'category': movie_type})
 
@@ -57,5 +58,6 @@ def first_movies_category(request):
     movie_type = movie_category['movie_type']
     genres_to_be_excluded = movie_category['genres_to_be_excluded']
     movies = Movies.get_movies_by_genre(movie_type, genres_to_be_excluded )
+    request.session['movies_rated'] = 0
     return render(request, 'movies/movies_category.html',
         {'movies': movies, 'category': movie_type})

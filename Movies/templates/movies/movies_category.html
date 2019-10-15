@@ -1,56 +1,70 @@
 {% extends 'base_layout.html' %}
 {% block content %}
-
-<p>You are filling the survey as: {{ request.session.user_name }}</p>
-<p>Movies category: {{ category }}</p>
+<script>
+$(document).ready(function(){
+  $('[data-toggle="popover"]').popover();
+});
+</script>
+<p style="font-size: 0.8em;">You are filling the poll as: {{ request.session.user_name }}</p>
+<p style="font-size: 0.8em;">Your progress: {{ request.session.movies_rated }}/200</p>
+<h2 style="text-align: center;">Movies of category: {{ category }}</h2>
+<br>
+ <div class="row">
  {% for movie in movies %}
-
-<div class="row">
-    <div class="col-sm-12">
-        The title:{{ movie.movie_title}}.
-        Description:{{ movie.overview }}.
-        Movie release_date{{ movie.release_date }}.
-        Average vote:{{ movie.vote_average }}.
-    </div>
-</div>
-
-<div class="row">
-<form>
-	  <div class="col-sm-12">
+  <div class="col-sm">
+    <div class="card" style="width: 400px">
+        <div class="card-header movie-title"><h3>{{ movie.movie_title}}</h3></div>
+     <div class="card-body">
+         <div class="row">
+          <div class="col-sm">
+            <p style="font-size: 0.9em; font-weight: bold;">Released:</p>
+            <p style="font-size: 0.9em">{{ movie.release_date }}</p>
+            <a style="font-size: 0.9em; font-weight: bold;" href="#" data-toggle="popover" title="Movie description" data-content="{{ movie.overview }}">Click for description</a>
+          </div>
+           <div class="col-sm">
+            <img src="/media{{ movie.poster_path}}" style="max-width: 150px;"/>
+           </div>
+           </div>
+          <br>
           <form>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-              <label class="form-check-label" for="inlineRadio1">1</label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio0" value="option0">
+            <label class="form-check-label" for="inlineRadio0">0  </label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-              <label class="form-check-label" for="inlineRadio2">2</label>
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+            <label class="form-check-label" for="inlineRadio1">1</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-              <label class="form-check-label" for="inlineRadio3">3</label>
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+            <label class="form-check-label" for="inlineRadio2">2</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
-              <label class="form-check-label" for="inlineRadio4">4</label>
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+            <label class="form-check-label" for="inlineRadio3">3</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
-              <label class="form-check-label" for="inlineRadio5">5</label>
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
+            <label class="form-check-label" for="inlineRadio4">4</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioNotSeen" value="optionNotSeen">
-              <label class="form-check-label" for="inlineRadioNotSeen">Not seen</label>
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
+            <label class="form-check-label" for="inlineRadio5">5</label>
             </div>
+            <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioNotSeen" value="optionNotSeen">
+            <label class="form-check-label" for="inlineRadioNotSeen">Not seen</label>
+          </div>
           </form>
+        </div>
     </div>
-</form>
-</div>
-         -------------------------------------------------------------------
-{% endfor %}
+     </div>
+  {% endfor %}
+ </div>
+
 <div class="row">
 	  <div class="col-sm-12">
-            <a href="{% url 'movie:collect_ratings' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Next page</a>
+            <a href="{% url 'movie:collect_ratings' %}" class="btn btn-primary btn-lg active pull-right" role="button" aria-pressed="true" >Next page</a>
       </div>
 </div>
 {% endblock %}
