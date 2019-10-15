@@ -1,5 +1,43 @@
 {% extends 'base_layout.html' %}
 {% block content %}
+<style>
+.checked {
+    color: orange;
+}
+</style>
+<script>
+// https://bootsnipp.com/snippets/dlaaN
+function add_star(ths,sno,movie_id){
+  for (var i=1;i<=6;i++){
+    var cur=document.getElementById("star"+i+"-"+movie_id)
+    cur.className="fa fa-star"
+  }
+  for (var i=1;i<=sno;i++){
+    var cur=document.getElementById("star"+i+"-"+movie_id)
+    if(cur.className=="fa fa-star")
+    {
+      // mark stars as checked and notseen as not checked
+      cur.className="fa fa-star checked"
+      document.getElementById("notseen-"+movie_id).className="fa fa-close"
+    }
+  }
+}
+function add_notseen(ths,movie_id){
+  var cur=document.getElementById("notseen-"+movie_id)
+  if(cur.className=="fa fa-close")
+  {
+    // mark stars as not checked and notseen as checked
+    cur.className="fa fa-close checked"
+    document.getElementById("star"+1+"-"+movie_id).className="fa fa-star"
+    document.getElementById("star"+2+"-"+movie_id).className="fa fa-star"
+    document.getElementById("star"+3+"-"+movie_id).className="fa fa-star"
+    document.getElementById("star"+4+"-"+movie_id).className="fa fa-star"
+    document.getElementById("star"+5+"-"+movie_id).className="fa fa-star"
+    document.getElementById("star"+6+"-"+movie_id).className="fa fa-star"
+  }
+}
+</script>
+
 <script>
 $(document).ready(function(){
   $('[data-toggle="popover"]').popover();
@@ -9,6 +47,7 @@ $(document).ready(function(){
 <p style="font-size: 0.8em;">Your progress: {{ request.session.movies_rated }}/200</p>
 <h2 style="text-align: center;">Movies of category: {{ category }}</h2>
 <br>
+
  <div class="row">
  {% for movie in movies %}
   <div class="col-sm">
@@ -26,36 +65,13 @@ $(document).ready(function(){
            </div>
            </div>
           <br>
-          <form>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio0" value="option0">
-            <label class="form-check-label" for="inlineRadio0">0  </label>
-            </div>
-            <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-            <label class="form-check-label" for="inlineRadio1">1</label>
-            </div>
-            <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-            <label class="form-check-label" for="inlineRadio2">2</label>
-            </div>
-            <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-            <label class="form-check-label" for="inlineRadio3">3</label>
-            </div>
-            <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
-            <label class="form-check-label" for="inlineRadio4">4</label>
-            </div>
-            <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
-            <label class="form-check-label" for="inlineRadio5">5</label>
-            </div>
-            <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioNotSeen" value="optionNotSeen">
-            <label class="form-check-label" for="inlineRadioNotSeen">Not seen</label>
-          </div>
-          </form>
+          <span class="fa fa-star" id="star1-{{movie.movie_id}}" onclick="add_star(this,1,{{movie.movie_id}})"></span>
+          <span class="fa fa-star" id="star2-{{movie.movie_id}}" onclick="add_star(this,2,{{movie.movie_id}})"></span>
+          <span class="fa fa-star" id="star3-{{movie.movie_id}}" onclick="add_star(this,3,{{movie.movie_id}})"></span>
+          <span class="fa fa-star" id="star4-{{movie.movie_id}}" onclick="add_star(this,4,{{movie.movie_id}})"></span>
+          <span class="fa fa-star" id="star5-{{movie.movie_id}}" onclick="add_star(this,5,{{movie.movie_id}})"></span>
+          <span class="fa fa-star" id="star6-{{movie.movie_id}}" onclick="add_star(this,6,{{movie.movie_id}})"></span>
+          <span class="fa fa-close" id="notseen-{{movie.movie_id}}" style="float: right" onclick="add_notseen(this,{{movie.movie_id}})"></span>
         </div>
     </div>
      </div>

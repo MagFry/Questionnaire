@@ -24,6 +24,8 @@ movies_categories = [
 
 ]
 
+def test2(request):
+    return render(request, 'movies/rating-star2.html')
 def collect_ratings(request):
     # TODO: implement collecting the ratings
     # if this is a POST request we need to process the form data
