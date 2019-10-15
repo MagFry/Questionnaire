@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 import json
 from django.contrib.auth.decorators import login_required
+from Responses import forms
 
 
 def movie_list(request):
@@ -40,6 +41,16 @@ movies_categories = [
 
 def collect_ratings(request):
     # TODO: implement collecting the ratings
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = forms.VoteForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # save form input to session, but do not yet save to db
+            new_vote = form.save(commit=False)
+            new_vote.save()
+
 
     # render new page with movies to be rated
     request.session['movies_category_index'] = int(request.session.get('movies_category_index',0)) + 1
