@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 import json
 from django.contrib.auth.decorators import login_required
-from Responses import forms
 
 
 def movie_list(request):
