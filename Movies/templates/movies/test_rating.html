@@ -1,0 +1,29 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+{% load static %}
+<script src="{% static 'movies/rating.js'%}" crossorigin="anonymous"></script>
+<style>
+.checked {
+    color: orange;
+}
+</style>
+
+<h2>Star Rating</h2>
+{%  for movie in movies %}
+<h3>{{ movie.movie_title}}</h3>
+<span class="fa fa-star" id="star1-{{movie.movie_id}}" onclick="add_star(this,1,{{movie.movie_id}})"></span>
+<span class="fa fa-star" id="star2-{{movie.movie_id}}" onclick="add_star(this,2,{{movie.movie_id}})"></span>
+<span class="fa fa-star" id="star3-{{movie.movie_id}}" onclick="add_star(this,3,{{movie.movie_id}})"></span>
+<span class="fa fa-star" id="star4-{{movie.movie_id}}" onclick="add_star(this,4,{{movie.movie_id}})"></span>
+<span class="fa fa-star" id="star5-{{movie.movie_id}}" onclick="add_star(this,5,{{movie.movie_id}})"></span>
+<span class="fa fa-star" id="star6-{{movie.movie_id}}" onclick="add_star(this,6,{{movie.movie_id}})"></span>
+<span class="fa fa-close" id="notseen-{{movie.movie_id}}" style="float: right" onclick="add_notseen(this,{{movie.movie_id}})"></span>
+<br>
+{% endfor %}
+<br>
+<form action="." method="post">
+  {% csrf_token %}
+  <button name="button-name" value="fav_HTML" class="btn btn-primary btn-lg active pull-right" role="button" onclick="print_rate()">Rate</button>
+  <button name="button-name" value="fav_HTML" class="btn btn-primary btn-lg active pull-right" role="button" onclick="save_ratings()">Rate and POST</button>
+</form>
+{% endblock %}

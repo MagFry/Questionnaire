@@ -57,7 +57,8 @@ class Command(BaseCommand):
                 tmdb_api_client.download_poster(json)
 
                 if os.environ.get('PIIS_TEST') == 'true':
-                    self.stdout.write('PIIS_TEST set to true, no more movies will be added')
-                    break
+                    if len(Movies.objects.all()) >= 10:
+                        self.stdout.write('PIIS_TEST set to true, no more movies will be added')
+                        break
 
             self.stdout.write(self.style.SUCCESS('Successfully added all movies to db'))
