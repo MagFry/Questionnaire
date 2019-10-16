@@ -13,8 +13,13 @@ $(document).ready(function(){
   $('[data-toggle="popover"]').popover();
 });
 </script>
-<p style="font-size: 0.8em;">You are filling the poll as: {{ request.session.user_name }}</p>
-<p style="font-size: 0.8em;">Your progress: {{ request.session.movies_rated }}/200</p>
+<div class="row">
+  <h5 style="margin-left: 3em;">Your name: {{ request.session.user_name }}</h5>
+</div>
+<div class="row">
+  <h5 style="margin-left: 3em;">Your progress: {{ request.session.movies_rated }}/200</h5>
+</div>
+
 <h2 style="text-align: center;">Movies of category: {{ category }}</h2>
 <br>
 
@@ -28,20 +33,22 @@ $(document).ready(function(){
           <div class="col-sm">
             <p style="font-size: 0.9em; font-weight: bold;">Released:</p>
             <p style="font-size: 0.9em">{{ movie.release_date }}</p>
-            <a style="font-size: 0.9em; font-weight: bold;" href="#" data-toggle="popover" title="Movie description" data-content="{{ movie.overview }}">Click for description</a>
+              <p style="font-size: 0.9em; font-weight: bold;">Description:</p>
+            <a style="font-size: 0.9em; font-weight: bold;" href="#" data-toggle="popover" title="Movie description" data-content="{{ movie.overview }}">Click here</a>
           </div>
            <div class="col-sm">
             <img src="/media{{ movie.poster_path}}" style="max-width: 150px;"/>
            </div>
            </div>
           <br>
+          <p style="font-size: 0.9em; font-weight: bold;">My rating:</p>
           <span class="fa fa-star" id="star1-{{movie.movie_id}}" onclick="add_star(this,1,{{movie.movie_id}})"></span>
           <span class="fa fa-star" id="star2-{{movie.movie_id}}" onclick="add_star(this,2,{{movie.movie_id}})"></span>
           <span class="fa fa-star" id="star3-{{movie.movie_id}}" onclick="add_star(this,3,{{movie.movie_id}})"></span>
           <span class="fa fa-star" id="star4-{{movie.movie_id}}" onclick="add_star(this,4,{{movie.movie_id}})"></span>
           <span class="fa fa-star" id="star5-{{movie.movie_id}}" onclick="add_star(this,5,{{movie.movie_id}})"></span>
           <span class="fa fa-star" id="star6-{{movie.movie_id}}" onclick="add_star(this,6,{{movie.movie_id}})"></span>
-          <span class="fa fa-close" id="notseen-{{movie.movie_id}}" style="float: right" onclick="add_notseen(this,{{movie.movie_id}})"></span>
+          <span class="fa fa-close" id="notseen-{{movie.movie_id}}" style="float: right" onclick="add_notseen(this,{{movie.movie_id}})">Not Seen</span>
         </div>
     </div>
      </div>
