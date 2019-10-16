@@ -1,12 +1,19 @@
-## How to build project
+# Questionnaire
+
+## How to run project
 ```
-0. export TMDB_API_KEY="YOUR_KEY_HERE"
-1. pip install -r requirements.txt
-2. python manage.py makemigrations
-3. python manage.py migrate
-4. python manage.py populate_db
-5. python manage.py runserver 8000
+export TMDB_API_KEY="YOUR_KEY_HERE"
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+# gets metadata about 200 movies and inserts into Movies db
+python manage.py populate_db
+python manage.py runserver 8000
 ```
+
+and visit: http://localhost:8000/
+
+## Management commands
 
 There is also a command to delete all the movies (rows) from table: Movies:
 ```
@@ -17,6 +24,11 @@ and to list all the movies in table: Movies:
 python manage.py list_movies
 ```
 
+List all ratings:
+```
+python manage.py list_ratings
+```
+
 Same for users:
 ```
 python manage.py delete_users
@@ -24,7 +36,7 @@ python manage.py list_users
 ```
 
 Also, if you want to just test that populate_db works, make it run in a test mode,
- (this will add only one movie):
+ (this will add only 10 movies):
 ```
 PIIS_TEST=true python manage.py populate_db
 ```
