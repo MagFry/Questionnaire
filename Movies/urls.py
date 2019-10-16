@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^first_movies_category/$', views.first_movies_category, name='first_movies_category'),
     url(r'^test/$', views.test, name='test'),
     url(r'^test2/$', views.test2, name='test2'),
+    url(r'^insert_rating/$', views.insert_rating, name='insert_rating'),
 ]
