@@ -75,15 +75,34 @@ function get_movies_ratings(ths, movie_ids, alert_each_rating) {
   }
   return ratings
 }
+function check_all_movies_rated(ths, ratings){
+  for (var i=0; i<ratings.length; i++) {
+    if (ratings[i].movie_rating == 0) {
+      return false
+    }
+  }
+  return true
+}
 // used in test view only, does not send any data
 function print_rate(ths){
   movie_ids = get_movie_ids()
   ratings = get_movies_ratings(ths, movie_ids, true)
+  all_movies_rated = check_all_movies_rated(ths,ratings)
+  if (all_movies_rated == false) {
+    alert("Not all movies are rated")
+  }
 }
 // used in production view, sends data with POST method
 function save_ratings(ths){
   movie_ids = get_movie_ids()
   ratings = get_movies_ratings(ths, movie_ids, false)
+  all_movies_rated = check_all_movies_rated(ths,ratings)
+  if (all_movies_rated == false) {
+    alert("Not all movies are rated")
+    // this and onclick="return save_ratings()" prevents the page
+    // from being refreshed and pointing to next movies category
+    return false
+  }
   my_post_data = {
     ratings: ratings
   }

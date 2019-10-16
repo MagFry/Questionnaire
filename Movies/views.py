@@ -32,8 +32,9 @@ movies_categories = [
 
 ]
 
-# TODO: do not use it in serious websites
+# TODO: do not use @csrf_exempt in serious websites
 # https://stackoverflow.com/questions/6506897/csrf-token-missing-or-incorrect-while-post-parameter-via-ajax-in-django#6533544
+# This view inserts ratings into db.
 @csrf_exempt
 def insert_rating(request):
     logger.info('Inserting new votes')
@@ -70,6 +71,7 @@ def test_rating(request):
     movies = [movies0[0], movies1[0]]
     return render(request, 'movies/test_rating.html', {'movies': movies })
 
+# This view prints a poll with movies to be rated.
 def rating(request):
     if int(request.session['movies_category_index']) == len(movies_categories):
         # render bye page

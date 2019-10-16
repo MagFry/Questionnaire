@@ -24,6 +24,8 @@
 <form action="." method="post">
   {% csrf_token %}
   <button name="button-name" value="fav_HTML" class="btn btn-primary btn-lg active pull-right" role="button" onclick="print_rate()">Rate</button>
-  <button name="button-name" value="fav_HTML" class="btn btn-primary btn-lg active pull-right" role="button" onclick="save_ratings()">Rate and POST</button>
+  <!-- // this and onclick="return save_ratings()" prevents the page
+  // from being refreshed and pointing to next movies category -->
+  <button name="button-name" value="fav_HTML" class="btn btn-primary btn-lg active pull-right" role="button" onclick="return save_ratings()">Rate and POST</button>
 </form>
 {% endblock %}
