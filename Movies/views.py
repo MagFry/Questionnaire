@@ -15,7 +15,7 @@ import os
 import logging
 
 # Get an instance of a logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('questionnaire_logger')
 
 movies_categories = [
     {'movie_type': 'Horror', 'genres_to_be_excluded': []},
