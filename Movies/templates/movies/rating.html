@@ -1,0 +1,66 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+{% load static %}
+<script src="{% static 'movies/rating.js'%}" crossorigin="anonymous"></script>
+<style>
+.checked {
+    color: orange;
+}
+</style>
+
+<script>
+$(document).ready(function(){
+  $('[data-toggle="popover"]').popover();
+});
+</script>
+<div class="row">
+  <h5 style="margin-left: 3em;">Your name: {{ request.session.user_name }}</h5>
+</div>
+<div class="row">
+  <h5 style="margin-left: 3em;">Your progress: {{ request.session.movies_rated }}/200</h5>
+</div>
+
+<h2 style="text-align: center;">Movies of category: {{ category }}</h2>
+<br>
+
+ <div class="row">
+ {% for movie in movies %}
+  <div class="col-sm">
+    <div class="card" style="width: 400px">
+        <div class="card-header movie-title"><h3>{{ movie.movie_title}}</h3></div>
+     <div class="card-body">
+         <div class="row">
+          <div class="col-sm">
+            <p style="font-size: 0.9em; font-weight: bold;">Released:</p>
+            <p style="font-size: 0.9em">{{ movie.release_date }}</p>
+              <p style="font-size: 0.9em; font-weight: bold;">Description:</p>
+            <a style="font-size: 0.9em; font-weight: bold;" href="#" data-toggle="popover" title="Movie description" data-content="{{ movie.overview }}">Click here</a>
+          </div>
+           <div class="col-sm">
+            <img src="/media{{ movie.poster_path}}" style="max-width: 150px;"/>
+           </div>
+           </div>
+          <br>
+          <p style="font-size: 0.9em; font-weight: bold;">My rating:</p>
+          <span class="fa fa-star" id="star1-{{movie.movie_id}}" onclick="add_star(this,1,{{movie.movie_id}})"></span>
+          <span class="fa fa-star" id="star2-{{movie.movie_id}}" onclick="add_star(this,2,{{movie.movie_id}})"></span>
+          <span class="fa fa-star" id="star3-{{movie.movie_id}}" onclick="add_star(this,3,{{movie.movie_id}})"></span>
+          <span class="fa fa-star" id="star4-{{movie.movie_id}}" onclick="add_star(this,4,{{movie.movie_id}})"></span>
+          <span class="fa fa-star" id="star5-{{movie.movie_id}}" onclick="add_star(this,5,{{movie.movie_id}})"></span>
+          <span class="fa fa-star" id="star6-{{movie.movie_id}}" onclick="add_star(this,6,{{movie.movie_id}})"></span>
+          <span class="fa fa-close" id="notseen-{{movie.movie_id}}" style="float: right" onclick="add_notseen(this,{{movie.movie_id}})">Not Seen</span>
+        </div>
+    </div>
+     </div>
+  {% endfor %}
+ </div>
+
+<div class="row">
+	  <div class="col-sm-12">
+      <form action="." method="post">
+        {% csrf_token %}
+        <button name="button-name" class="btn btn-primary btn-lg active pull-right" role="button" onclick="return save_ratings()">Next page</button>
+      </form>
+    </div>
+</div>
+{% endblock %}
