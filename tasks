@@ -7,6 +7,7 @@ export TMDB_API_KEY=$(cat ~/.bashrc.d/tmdb)
 command="$1"
 case "${command}" in
   docker_build)
+      cd ops/
       docker build -t piis-web:0.1.0 .
       exit $?
       ;;
