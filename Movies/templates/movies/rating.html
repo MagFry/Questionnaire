@@ -29,6 +29,7 @@ window.addEventListener('beforeunload', function (e) {
   }
 });
 </script>
+
 <div class="row">
   <h5 style="margin-left: 3em;">Your name: {{ request.session.user_name }}</h5>
 </div>
@@ -42,7 +43,7 @@ window.addEventListener('beforeunload', function (e) {
  <div class="row">
  {% for movie in movies %}
   <div class="col-sm">
-    <div class="card" style="width: 400px">
+    <div class="card" style="width: 370px">
         <div class="card-header movie-title"><h3>{{ movie.movie_title}}</h3></div>
      <div class="card-body">
          <div class="row">
