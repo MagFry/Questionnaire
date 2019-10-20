@@ -43,12 +43,17 @@ class TmdbApiClient(TestCase):
     def test_download_poster(self):
         """Api Client can download poster image"""
         poster_path = 'adw6Lq9FiC9zjYEpOqfq03ituwp.jpg'
-        if os.path.isfile('media/'+poster_path):
-            os.remove('media/'+poster_path)
+        test_images_dir = 'test/media'
+        # clean before test
+        if os.path.isfile(test_images_dir+'/'+poster_path):
+            os.remove(test_images_dir+'/'+poster_path)
         json = {}
         json['poster_path'] = poster_path
-        tmdb_api_client.download_poster(json)
-        self.assertEqual(os.path.isfile('media/'+poster_path), True)
+        tmdb_api_client.download_poster(json, test_images_dir)
+        self.assertEqual(os.path.isfile(test_images_dir+'/'+poster_path), True)
+        # clean after test
+        if os.path.isfile(test_images_dir+'/'+poster_path):
+            os.remove(test_images_dir+'/'+poster_path)
 
 class MoviesTestCase(TestCase):
     def setUp(self):
