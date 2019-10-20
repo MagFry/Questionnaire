@@ -13,6 +13,22 @@ $(document).ready(function(){
   $('[data-toggle="popover"]').popover();
 });
 </script>
+<script type="text/javascript">
+window.addEventListener('beforeunload', function (e) {
+  movie_ids = get_movie_ids()
+  ratings = get_movies_ratings(ths, movie_ids, false)
+  all_movies_rated = check_all_movies_rated(ths,ratings)
+  if (all_movies_rated == false) {
+    // Cancel the event
+    e.preventDefault();
+    // Chrome requires returnValue to be set
+    e.returnValue = '';
+  } else {
+    // the absence of a returnValue property on the event will guarantee the browser unload happens
+    delete e['returnValue'];
+  }
+});
+</script>
 <div class="row">
   <h5 style="margin-left: 3em;">Your name: {{ request.session.user_name }}</h5>
 </div>
