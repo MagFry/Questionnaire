@@ -13,6 +13,8 @@ python manage.py runserver 8000
 
 and visit: http://localhost:8000/
 
+to get a csv of all ratings, visit: http://localhost:8000/responses/get_csv/
+
 ## Management commands
 
 There is also a command to delete all the movies (rows) from table: Movies:
