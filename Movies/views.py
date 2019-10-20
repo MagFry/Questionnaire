@@ -23,13 +23,13 @@ movies_categories = [
     {'movie_type': 'Western', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure']},
     {'movie_type': 'Crime', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western']},
     {'movie_type': 'Science Fiction', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime']},
-    {'movie_type': 'Fantasy', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi']},
-    {'movie_type': 'Comedy', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi', 'Fantasy']},
-    {'movie_type': 'Family', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi', 'Fantasy', 'Comedy']},
-    {'movie_type': 'History', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi', 'Fantasy', 'Comedy', 'Family']},
-    {'movie_type': 'War', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi', 'Fantasy', 'Comedy', 'Family', 'History']},
-    {'movie_type': 'Drama', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Sci-Fi', 'Fantasy', 'Comedy', 'Family', 'History', 'War']},
-
+    {'movie_type': 'Fantasy', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Science Fiction']},
+    {'movie_type': 'Comedy', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Science Fiction', 'Fantasy']},
+    {'movie_type': 'Family', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Science Fiction', 'Fantasy', 'Comedy']},
+    {'movie_type': 'History', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Science Fiction', 'Fantasy', 'Comedy', 'Family']},
+    {'movie_type': 'War', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Science Fiction', 'Fantasy', 'Comedy', 'Family', 'History']},
+    {'movie_type': 'Drama', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Science Fiction', 'Fantasy', 'Comedy', 'Family', 'History', 'War']},
+    {'movie_type': 'Thriller', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Science Fiction', 'Fantasy', 'Comedy', 'Family', 'History', 'War', 'Drama']},
 ]
 
 # TODO: do not use @csrf_exempt in serious websites

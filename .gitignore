@@ -11,3 +11,5 @@ media/*.jpg
 *.tfplan
 *.tar
 *.tar.gz
+
+piis.log
