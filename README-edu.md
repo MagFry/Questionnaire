@@ -25,3 +25,31 @@ http://localhost:8000/movies/test_rating/
 ```
 
 Choose a rating (1 to 6 or cross for not seen) and then click the Rate button.
+
+
+# Heroku deployment
+* https://devcenter.heroku.com/articles/using-terraform-with-heroku#set-up-terraform
+* https://www.terraform.io/docs/providers/heroku/r/build.html
+* https://elements.heroku.com/addons/heroku-postgresql
+* https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres
+* https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres
+
+install heroku cli on ubuntu:
+```
+echo "deb https://cli-assets.heroku.com/apt ./" > /etc/apt/sources.list.d/heroku.list
+curl https://cli-assets.heroku.com/apt/release.key | apt-key add -
+apt-get update
+apt-get install -y heroku
+```
+
+example commands:
+```
+heroku login
+heroku ps -a piis-app
+heroku logs -a piis-app
+heroku dyno:restart -a piis-app
+heroku config -a piis-app
+heroku ps:exec -a piis-app
+```
+
+https://devcenter.heroku.com/articles/heroku-cli-commands

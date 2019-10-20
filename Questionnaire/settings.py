@@ -35,7 +35,7 @@ LOGGING = {
         'logfile': {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
-            'filename': "/var/log/piis.log",
+            'filename': "piis.log",
             'maxBytes': 50000,
             'backupCount': 2,
             'formatter': 'verbose',
@@ -175,3 +175,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+deployment_type = os.environ.get('PIIS_DEPLOYMENT', 'local')
+if deployment_type == 'heroku':
+    # Parse database configuration from $DATABASE_URL
+    import dj_database_url
+    # DATABASES['default'] =  dj_database_url.config()
+    #updated
+    DATABASES = {'default': dj_database_url.config(default='postgres://user:pass@localhost/dbname')}
