@@ -32,11 +32,28 @@ LOGGING = {
             'stream': sys.stdout,
             'formatter': 'verbose'
         },
+        'logfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': "/var/log/piis.log",
+            'maxBytes': 50000,
+            'backupCount': 2,
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
-        'questionnaire_logger': {
-            'handlers': ['console'],
+        # the root logger
+        '': {
+            'handlers': ['console', 'logfile'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+            'propagate': True,
+        },
+        'django': {
+            'handlers': ['console', 'logfile'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            # whether to propagate to root logger, if we set it to true,
+            # we'd see those messages 2 times
+            'propagate': False,
         },
     },
 }
@@ -54,7 +71,7 @@ SECRET_KEY = '9nzyfd6=5#v9g&yrx&e_nlmgqk!7rnhy^36gjr^8bdhxkde$nx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
