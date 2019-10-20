@@ -6,3 +6,8 @@ docker/src
 src/
 .pycharm
 media/*.jpg
+
+.terraform/
+*.tfplan
+*.tar
+*.tar.gz

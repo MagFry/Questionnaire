@@ -1,5 +1,6 @@
 import requests
 import os
+import os.path
 
 url = "https://api.themoviedb.org/3"
 api_key_v3 = os.environ['TMDB_API_KEY']
@@ -32,9 +33,12 @@ def get_movie_genres_comma_separated(movie_json):
     # remove first comma
     return genres_comma_sep[1:]
 
-def download_poster(movie_json):
-    # poster_file = movie_json['poster_path']
-    # urllib.urlretrieve ("https://image.tmdb.org/t/p/original/"+poster_file, "media/"+poster_file)
+# Returns bool, true if file was downloaded
+def download_poster(movie_json, images_dir):
     poster_file = movie_json['poster_path']
-    resp = requests.get("https://image.tmdb.org/t/p/original/"+poster_file)
-    open("media/"+poster_file, 'wb').write(resp.content)
+    if os.path.isfile(images_dir+'/'+poster_file):
+        return False
+    else:
+        resp = requests.get("https://image.tmdb.org/t/p/original/"+poster_file)
+        open(images_dir+"/"+poster_file, 'wb').write(resp.content)
+        return True

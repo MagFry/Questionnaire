@@ -2,11 +2,17 @@
 
 set -eu
 
-export TMDB_API_KEY=$(cat ~/.bashrc.d/tmdb)
+if [[ -f ~/.bashrc.d/tmdb ]]; then
+  source ~/.bashrc.d/tmdb
+fi
+if [[ -f ~/.bashrc.d/heroku ]]; then
+  source ~/.bashrc.d/heroku
+fi
 
 command="$1"
 case "${command}" in
   docker_build)
+      cd ops/
       docker build -t piis-web:0.1.0 .
       exit $?
       ;;
@@ -25,6 +31,29 @@ case "${command}" in
       ;;
   down)
       docker-compose -f ./docker-compose.yml -p piis down
+      exit $?
+      ;;
+  _heroku_up)
+      rm -f ./terraform/app.tar.gz
+      tar -czf ./terraform/app.tar.gz --exclude=terraform --exclude=db --exclude=*/__pycache__ --exclude=test .
+      export TF_VAR_tmdb_api_key=${TMDB_API_KEY}
+      export TF_VAR_heroku_api_key=${HEROKU_API_KEY}
+      #sudo rm -rf test/__pycache__
+      cd terraform/
+      terraform init
+      terraform get
+      terraform plan -out=tf.tfplan
+      terraform apply tf.tfplan
+      exit $?
+      ;;
+  _heroku_destroy)
+      export TF_VAR_tmdb_api_key=${TMDB_API_KEY}
+      export TF_VAR_heroku_api_key=${HEROKU_API_KEY}
+      cd terraform/
+      terraform init
+      terraform get
+      terraform plan -out=tf.tfplan -destroy
+      terraform apply tf.tfplan
       exit $?
       ;;
   *)

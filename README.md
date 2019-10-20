@@ -36,7 +36,7 @@ python manage.py list_users
 ```
 
 Also, if you want to just test that populate_db works, make it run in a test mode,
- (this will add only 10 movies):
+ (this will add only 1 movie):
 ```
 PIIS_TEST=true python manage.py populate_db
 ```

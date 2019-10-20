@@ -10,7 +10,19 @@ import os
 class Command(BaseCommand):
     help = 'Adds data to table: Movies from csv file and from TMDB API'
 
+    def add_arguments(self, parser):
+        # Named (optional) arguments
+        parser.add_argument(
+            '--media-dir',
+            dest = "mediadir",
+            help='Directory for media files',
+        )
+
     def handle(self, *args, **options):
+        media_dir = 'media'
+        if options['mediadir'] != None:
+            media_dir = options['mediadir']
+
         movies = Movies.objects.all()
         if len(movies) != 0:
             self.stdout.write('Skipping populating the Movies table')
@@ -37,8 +49,8 @@ class Command(BaseCommand):
                 temp_dict = {"file_id":int(ids[i]), "file_id_tmdb":int (ids_tmdb[i]),  "title": title[i] }
                 list.append(temp_dict)
 
-
-            for item in list:
+            for x in range(0, array_lenght):
+                item = list[x]
                 id = item.get('file_id')
                 id_tmdb = item.get('file_id_tmdb')
                 title = item.get('title').rstrip()
@@ -47,17 +59,22 @@ class Command(BaseCommand):
                 json = tmdb_api_client.get_movie_json(id_tmdb, tmdb_api_client.api_key_v3)
                 genres = tmdb_api_client.get_movie_genres_comma_separated(json)
 
-                self.stdout.write('Adding movie: "%s;%s;%s"' % (id,id_tmdb,title))
+                self.stdout.write('Adding movie %s/%s: "%s;%s;%s"' % (x+1, array_lenght, id,id_tmdb,title))
+                self.stdout.write('Downloading poster image')
+
+                downloaded = tmdb_api_client.download_poster(json, media_dir)
+                if downloaded == False:
+                    self.stdout.write('Poster image existed locally')
+
                 movie_l = Movies.objects.create(
                     movie_id=id, movie_id_tmdb=id_tmdb, movie_title=title,
                     movie_genres=genres, overview=json['overview'],
                     poster_path=json['poster_path'], release_date=json['release_date'],
                     vote_average=float(json['vote_average']))
-                self.stdout.write('Downloading poster image')
-                tmdb_api_client.download_poster(json)
+                self.stdout.write('Added movie: "%s;%s;%s"' % (id,id_tmdb,title))
 
                 if os.environ.get('PIIS_TEST') == 'true':
-                    if len(Movies.objects.all()) >= 10:
+                    if len(Movies.objects.all()) >= 1:
                         self.stdout.write('PIIS_TEST set to true, no more movies will be added')
                         break
 
