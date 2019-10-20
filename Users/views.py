@@ -3,8 +3,13 @@ from django.shortcuts import render,redirect
 from . import forms
 from .models import Users
 from django.http import HttpResponseBadRequest
+import logging
+
+# The logger instance must be called exactly like that
+logger = logging.getLogger('questionnaire_logger')
 
 def get_name(request):
+    logger.info('Got a request: %s %s' % (request.META['REQUEST_METHOD'], request.META['PATH_INFO']))
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -29,6 +34,7 @@ def get_name(request):
 
             # add new user to DB
             new_user.save()
+            logger.info('Added user to db: %s' % (user_name_local))
 
             # get user ID from DB
             user_from_db = Users.objects.filter(user_name=user_name_local)[0]
