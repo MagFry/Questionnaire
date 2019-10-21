@@ -11,9 +11,9 @@ python manage.py populate_db
 python manage.py runserver 8000
 ```
 
-and visit: http://localhost:8000/
+and visit: https://piis-app.herokuapp.com
 
-to get a csv of all ratings, visit: http://localhost:8000/responses/get_csv/
+to get a csv of all ratings, visit: https://piis-app.herokuapp.com/responses/get_csv/
 
 ## Management commands
 
