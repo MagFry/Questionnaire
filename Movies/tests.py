@@ -55,6 +55,12 @@ class TmdbApiClient(TestCase):
         if os.path.isfile(test_images_dir+'/'+poster_path):
             os.remove(test_images_dir+'/'+poster_path)
 
+    def test_get_polish_movie_details(self):
+        """Api Client can get polish details about a movie"""
+        details = tmdb_api_client.get_polish_movie_details(551, tmdb_api_client.api_key_v3)
+        self.assertEqual(details['title'], 'Tragedia Posejdona')
+        self.assertTrue('Noc sylwestrowa. Grupa pasażerów walczy o przeżycie' in details['overview'])
+
 class MoviesTestCase(TestCase):
     def setUp(self):
         Movies.objects.create(movie_id=1, movie_id_tmdb=1, movie_title="title1",
