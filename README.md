@@ -1,6 +1,6 @@
 # Questionnaire
 
-## How to run project
+## How to run project locally 
 ```
 export TMDB_API_KEY="YOUR_KEY_HERE"
 pip install -r requirements.txt
@@ -11,9 +11,21 @@ python manage.py populate_db
 python manage.py runserver 8000
 ```
 
-and visit: https://piis-app.herokuapp.com
+and visit: http://localhost:8000/
+
+to get a csv of all ratings, visit: http://localhost:8000/responses/get_csv/
+
+
+## Deployment
+
+visit: https://piis-app.herokuapp.com
 
 to get a csv of all ratings, visit: https://piis-app.herokuapp.com/responses/get_csv/
+
+
+## Description of the project
+
+The website is a questionnaire with 200 movies fetched from TMDB. The movies are grouped in genres categories. Each category is placed in a distinct subpage. In the welcome page, the user types his username. There exists a constraint which allows using only one username. When another person wants to use the same nick, a user is redirected to type username again. When the user clicks the next page button and all the movies in the subpage are not rated, the proper window with information is displayed. When the user closes the browser before clicking next page button, only the answers from the previous page are saved to the database. https://piis-app.herokuapp.com/responses/get_csv/ page shows only the answers of users who completed all questions. The design of the layout of the webpage facilitates the rating process for the user.
 
 ## Management commands
 
