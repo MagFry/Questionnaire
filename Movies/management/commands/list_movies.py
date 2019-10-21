@@ -7,4 +7,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         movies = Movies.objects.all()
         for movie in movies:
-            self.stdout.write('Movie: "%s"' % movie.movie_title)
+            self.stdout.write('Movie: %s, Genres: %s' % (movie.movie_title, movie.movie_genres))
