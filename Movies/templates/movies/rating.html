@@ -16,8 +16,8 @@ $(document).ready(function(){
 <script type="text/javascript">
 window.addEventListener('beforeunload', function (e) {
   movie_ids = get_movie_ids()
-  ratings = get_movies_ratings(ths, movie_ids, false)
-  all_movies_rated = check_all_movies_rated(ths,ratings)
+  ratings = get_movies_ratings(window, movie_ids, false)
+  all_movies_rated = check_all_movies_rated(window,ratings)
   if (all_movies_rated == false) {
     // Cancel the event
     e.preventDefault();
