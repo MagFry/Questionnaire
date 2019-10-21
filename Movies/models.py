@@ -7,10 +7,12 @@ class Movies(models.Model):
     movie_id = models.IntegerField(primary_key=True)
     movie_id_tmdb = models.IntegerField()
     movie_title = models.CharField(max_length=200)
+    movie_title_pl = models.CharField(max_length=200)
     # comma separated list of genres, e.g. Comedy,Horror
     movie_genres = models.CharField(max_length=800)
     # a string with movie description
     overview = models.CharField(max_length=3000)
+    overview_pl = models.CharField(max_length=3000)
     # path to local image file, e.g. "adw6Lq9FiC9zjYEpOqfq03ituwp.jpg"
     # those files will be put to media/ directory
     poster_path = models.CharField(max_length=500)
@@ -54,6 +56,3 @@ class Movies(models.Model):
             if movie.is_of_specific_genre(genre) and movie.excludes_specific_genres(excluded_genres_arr):
                 movies_to_be_returned.append(movie)
         return movies_to_be_returned
-
-
-

@@ -42,3 +42,21 @@ def download_poster(movie_json, images_dir):
         resp = requests.get("https://image.tmdb.org/t/p/original/"+poster_file)
         open(images_dir+"/"+poster_file, 'wb').write(resp.content)
         return True
+
+def get_polish_movie_details(movie_id, api_key):
+    resp = requests.get(url+'/movie/'+str(movie_id)+'/translations?api_key=' + api_key)
+    if resp.status_code != 200:
+        # This means something went wrong.
+        raise RuntimeError('GET /movie/%s/translations %s' % (movie_id,resp.status_code))
+    movie_json = resp.json()
+    translations = movie_json['translations']
+    details = {}
+    for translation in translations:
+        if translation['iso_3166_1'] == 'PL':
+            details['title'] = translation['data']['title']
+            details['overview'] = translation['data']['overview']
+            return details
+    if details == {}:
+        details['title'] = ""
+        details['overview'] = ""
+    return details
