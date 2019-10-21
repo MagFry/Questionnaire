@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from Movies.models import Movies
 import Movies.tmdb_api_client as tmdb_api_client
 import os
+import sys
 
 # Why this file exists?
 # https://eli.thegreenplace.net/2014/02/15/programmatically-populating-a-django-database
@@ -54,14 +55,21 @@ class Command(BaseCommand):
                 id = item.get('file_id')
                 id_tmdb = item.get('file_id_tmdb')
                 title = item.get('title').rstrip()
+                self.stdout.write('Adding movie %s/%s: "%s;%s;%s"' % (x+1, array_lenght, id,id_tmdb,title))
 
                 # get additional information using TMDB API
-                json = tmdb_api_client.get_movie_json(id_tmdb, tmdb_api_client.api_key_v3)
+                json = {}
+                try:
+                    json = tmdb_api_client.get_movie_json(id_tmdb, tmdb_api_client.api_key_v3)
+                except:
+                    self.stdout.write("Unexpected error: %v" % (sys.exc_info()[0]))
+                    self.stdout.write("Trying again")
+                    json = tmdb_api_client.get_movie_json(id_tmdb, tmdb_api_client.api_key_v3)
+
                 genres = tmdb_api_client.get_movie_genres_comma_separated(json)
+                polish_details = tmdb_api_client.get_polish_movie_details(id_tmdb, tmdb_api_client.api_key_v3)
 
-                self.stdout.write('Adding movie %s/%s: "%s;%s;%s"' % (x+1, array_lenght, id,id_tmdb,title))
                 self.stdout.write('Downloading poster image')
-
                 downloaded = tmdb_api_client.download_poster(json, media_dir)
                 if downloaded == False:
                     self.stdout.write('Poster image existed locally')
@@ -70,7 +78,8 @@ class Command(BaseCommand):
                     movie_id=id, movie_id_tmdb=id_tmdb, movie_title=title,
                     movie_genres=genres, overview=json['overview'],
                     poster_path=json['poster_path'], release_date=json['release_date'],
-                    vote_average=float(json['vote_average']))
+                    vote_average=float(json['vote_average']),
+                    movie_title_pl=polish_details['title'], overview_pl=polish_details['overview'])
                 self.stdout.write('Added movie: "%s;%s;%s"' % (id,id_tmdb,title))
 
                 if os.environ.get('PIIS_TEST') == 'true':
