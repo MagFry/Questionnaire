@@ -6,6 +6,9 @@
 .checked {
     color: orange;
 }
+.fa {
+  cursor: pointer;
+}
 </style>
 
 <script>
@@ -16,8 +19,8 @@ $(document).ready(function(){
 <script type="text/javascript">
 window.addEventListener('beforeunload', function (e) {
   movie_ids = get_movie_ids()
-  ratings = get_movies_ratings(ths, movie_ids, false)
-  all_movies_rated = check_all_movies_rated(ths,ratings)
+  ratings = get_movies_ratings(window, movie_ids, false)
+  all_movies_rated = check_all_movies_rated(window,ratings)
   if (all_movies_rated == false) {
     // Cancel the event
     e.preventDefault();
@@ -38,13 +41,13 @@ window.addEventListener('beforeunload', function (e) {
 </div>
 
 <h2 style="text-align: center;">Movies of category: {{ category }}</h2>
-<h5 style="text-align: center;">Kategoria filmu: {{ category }}</h5>
+<h5 style="text-align: center;">Kategoria filmu: {{ category_pl }}</h5>
 <br>
 
  <div class="row">
  {% for movie in movies %}
   <div class="col-sm">
-    <div class="card" style="width: 370px">
+    <div class="card" style="width: 400px">
         <div class="card-header movie-title">
             <h3>{{ movie.movie_title}}</h3>
             <h6>{{ movie.movie_title_pl}}</h6>
@@ -62,7 +65,6 @@ window.addEventListener('beforeunload', function (e) {
             <img src="/media{{ movie.poster_path}}" style="max-width: 150px;"/>
            </div>
            </div>
-          <br>
           <p style="font-size: 0.9em; font-weight: bold;">My rating/Ocena:</p>
           <span class="fa fa-star" id="star1-{{movie.movie_id}}" onclick="add_star(this,1,{{movie.movie_id}})"></span>
           <span class="fa fa-star" id="star2-{{movie.movie_id}}" onclick="add_star(this,2,{{movie.movie_id}})"></span>

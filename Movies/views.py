@@ -31,6 +31,22 @@ movies_categories = [
     {'movie_type': 'Drama', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Science Fiction', 'Fantasy', 'Comedy', 'Family', 'History', 'War']},
     {'movie_type': 'Thriller', 'genres_to_be_excluded': ['Horror', 'Mystery', 'Romance', 'Adventure', 'Western', 'Crime', 'Science Fiction', 'Fantasy', 'Comedy', 'Family', 'History', 'War', 'Drama']},
 ]
+movies_categories_pl = {
+    'Horror': 'Horror',
+    'Mystery': 'Tajemnica',
+    'Romance': 'Romans',
+    'Adventure': 'Przygodowy',
+    'Western': 'Western',
+    'Crime': 'Zbrodnia',
+    'Science Fiction': 'Science Fiction',
+    'Fantasy': 'Fantastyka',
+    'Comedy': 'Komedia',
+    'Family': 'Familijny',
+    'History': 'Historyczny',
+    'War': 'Wojenny',
+    'Drama': 'Dramat',
+    'Thriller': 'Thriller',
+}
 
 # TODO: do not use @csrf_exempt in serious websites
 # https://stackoverflow.com/questions/6506897/csrf-token-missing-or-incorrect-while-post-parameter-via-ajax-in-django#6533544
@@ -79,6 +95,7 @@ def rating(request):
     else:
         movie_category = movies_categories[request.session['movies_category_index']]
         movie_type = movie_category['movie_type']
+        movie_type_pl = movies_categories_pl[movie_type]
         genres_to_be_excluded = movie_category['genres_to_be_excluded']
         movies = Movies.get_movies_by_genre(movie_type, genres_to_be_excluded )
         request.session['movies_rated'] = request.session['movies_rated_next']
@@ -87,4 +104,4 @@ def rating(request):
         request.session['movies_rated_next'] = int(request.session['movies_rated']) + len(movies)
         # render new page with movies to be rated
         return render(request, 'movies/rating.html',
-            {'movies': movies, 'category': movie_type})
+            {'movies': movies, 'category': movie_type, 'category_pl': movie_type_pl})
