@@ -27,3 +27,22 @@ def get_csv(request):
                  + str(rating)
             csv = csv + "<br>" + line
     return HttpResponse(csv)
+
+def get_all_csv(request):
+    users = Users.objects.all()
+    responses = Responses.objects.all()
+    csv = "respond_id,user_id,user_name,movie_id,movie_title,user_rate"
+    for response in responses:
+        rating = response.user_rate
+        if rating != -1:
+            # in our db rating is: 1-6 and -1 for not seen;
+            # the output must be: 0-5 and -1 for not seen;
+            rating = rating-1
+        line = str(response.respond_id) + ',' \
+             + str(response.user_id.user_id) + ',' \
+             + str(response.user_id.user_name) + ',' \
+             + str(response.movie_id.movie_id) + ',' \
+             + str(response.movie_id.movie_title) + ',' \
+             + str(rating)
+        csv = csv + "<br>" + line
+    return HttpResponse(csv)
