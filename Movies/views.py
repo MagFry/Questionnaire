@@ -87,11 +87,27 @@ def test_rating(request):
     movies = [movies0[0], movies1[0]]
     return render(request, 'movies/test_rating.html', {'movies': movies })
 
+
+
 # This view prints a poll with movies to be rated.
 def rating(request):
     if int(request.session['movies_category_index']) == len(movies_categories):
-        # render bye page
-        return render(request, 'movies/bye.html')
+        # it could happen that a user refreshed the page without assessing any movies,
+        # it would then lead the user to the next movies category and some
+        # movies would be left unassessed
+        user_id = request.session['user_id']
+        responses_for_one_user = Responses.objects.filter(user_id=user_id)
+        unassessed_movies_ids = Movies.get_unassessed_movies(user_id, responses_for_one_user,200)
+        if len(unassessed_movies_ids) != 0:
+            movie_type = 'Other (left unrated)'
+            movie_type_pl = 'Inne (pominięte wcześniej)'
+            movies = Movies.get_movies_by_ids(unassessed_movies_ids)
+            # render new page with movies to be rated
+            return render(request, 'movies/rating.html',
+                {'movies': movies, 'category': movie_type, 'category_pl': movie_type_pl})
+        else:
+            # all movies were rated, so render bye page
+            return render(request, 'movies/bye.html')
     else:
         movie_category = movies_categories[request.session['movies_category_index']]
         movie_type = movie_category['movie_type']
