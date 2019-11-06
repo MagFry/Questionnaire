@@ -1,0 +1,60 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+<script type="text/javascript">
+// used in production view, sends data with POST method
+function on_post_success(data){
+  console.log(my_post_data_str);
+  window.alert('success');
+}
+function on_post_error(data){
+  console.log(my_post_data_str);
+  window.alert('error');
+}
+function db_update(){
+  var ths = this;
+  password = document.getElementById('db_up_pass').value;
+  if (password != 2387) {
+    alert("Password not valid");
+    return false;
+  }
+  csv_data = document.getElementById('db_up_data').value;
+  my_post_data = {
+    csv_data: csv_data
+  }
+  my_post_data_str = JSON.stringify(my_post_data)
+  $.ajax({
+    type: "POST",
+    url: "/responses/db_repopulate/",
+    data: my_post_data_str,
+    // make it visible on your web browser developer tools
+    success: function(my_post_data_str){
+      console.log(my_post_data_str);
+      window.alert('success');
+    },
+    error: function(my_post_data_str){
+      console.log(my_post_data_str);
+      // TODO: this is invoked even on success
+
+      //window.alert('error, see Django server logs');
+    },
+    dataType: 'JSON'
+  });
+}
+</script>
+<div class="jumbotron text-center container">
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                    <div class="card">
+                        <h1>Enter the password and CSV data</h1>
+                        Password: <input id="db_up_pass" type="text" name="password">
+                        CSV data: <textarea id="db_up_data" type="text" name="csv_data"></textarea>
+                    </div>
+
+                    <!-- the return in onclick function is needed, see also the body of that function  -->
+                    <button name="update-db" class="btn btn-primary btn-lg active pull-right" role="button" onclick="return db_update()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
