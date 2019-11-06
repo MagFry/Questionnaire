@@ -93,7 +93,8 @@ function print_rate(ths){
   }
 }
 // used in production view, sends data with POST method
-function save_ratings(ths){
+function save_ratings(){
+  var ths = this;
   movie_ids = get_movie_ids()
   ratings = get_movies_ratings(ths, movie_ids, false)
   all_movies_rated = check_all_movies_rated(ths,ratings)
@@ -114,5 +115,9 @@ function save_ratings(ths){
     // make it visible on your web browser developer tools
     success: console.log(my_post_data_str),
     dataType: 'JSON'
+  });
+  $( document ).ajaxStop(function() {
+    // wait for ajax to be finished
+    window.location.reload()
   });
 }

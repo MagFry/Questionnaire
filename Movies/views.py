@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import (HttpResponse, HttpResponseBadRequest,
                          HttpResponseForbidden)
+from django.shortcuts import redirect
 from Responses.models import Responses
 from Movies.models import Movies
 from Users.models import Users
@@ -91,20 +92,25 @@ def test_rating(request):
 
 # This view prints a poll with movies to be rated.
 def rating(request):
+    all_movies_count = 200
+    user_id = request.session['user_id']
+    responses_for_one_user = Responses.objects.filter(user_id=user_id)
+    unassessed_movies_ids = Movies.get_unassessed_movies(
+        user_id, responses_for_one_user,all_movies_count)
+    progress = all_movies_count - len(unassessed_movies_ids)
+
     if int(request.session['movies_category_index']) == len(movies_categories):
         # it could happen that a user refreshed the page without assessing any movies,
         # it would then lead the user to the next movies category and some
         # movies would be left unassessed
-        user_id = request.session['user_id']
-        responses_for_one_user = Responses.objects.filter(user_id=user_id)
-        unassessed_movies_ids = Movies.get_unassessed_movies(user_id, responses_for_one_user,200)
         if len(unassessed_movies_ids) != 0:
             movie_type = 'Other (left unrated)'
             movie_type_pl = 'Inne (pominięte wcześniej)'
             movies = Movies.get_movies_by_ids(unassessed_movies_ids)
             # render new page with movies to be rated
             return render(request, 'movies/rating.html',
-                {'movies': movies, 'category': movie_type, 'category_pl': movie_type_pl})
+                {'movies': movies, 'category': movie_type, 'category_pl': movie_type_pl,
+                'progress': progress})
         else:
             # all movies were rated, so render bye page
             return render(request, 'movies/bye.html')
@@ -114,10 +120,10 @@ def rating(request):
         movie_type_pl = movies_categories_pl[movie_type]
         genres_to_be_excluded = movie_category['genres_to_be_excluded']
         movies = Movies.get_movies_by_genre(movie_type, genres_to_be_excluded )
-        request.session['movies_rated'] = request.session['movies_rated_next']
         # set values for next view
         request.session['movies_category_index'] = int(request.session.get('movies_category_index',0)) + 1
-        request.session['movies_rated_next'] = int(request.session['movies_rated']) + len(movies)
         # render new page with movies to be rated
+        progress = all_movies_count - len(unassessed_movies_ids)
         return render(request, 'movies/rating.html',
-            {'movies': movies, 'category': movie_type, 'category_pl': movie_type_pl})
+            {'movies': movies, 'category': movie_type, 'category_pl': movie_type_pl,
+            'progress': progress})
