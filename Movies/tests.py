@@ -1,5 +1,7 @@
 from django.test import TestCase
 from Movies.models import Movies
+from Responses.models import Responses
+from Users.models import Users
 import Movies.tmdb_api_client as tmdb_api_client
 import os.path
 
@@ -63,15 +65,21 @@ class TmdbApiClient(TestCase):
 
 class MoviesTestCase(TestCase):
     def setUp(self):
-        Movies.objects.create(movie_id=1, movie_id_tmdb=1, movie_title="title1",
+        m1 = Movies.objects.create(movie_id=1, movie_id_tmdb=1, movie_title="title1",
          movie_genres="Comedy,Horror", overview="movie1", poster_path="Data/movie1.jpg",
          release_date="1999-10-15", vote_average=5.0)
-        Movies.objects.create(movie_id=2, movie_id_tmdb=2, movie_title="title2",
+        m2 = Movies.objects.create(movie_id=2, movie_id_tmdb=2, movie_title="title2",
          movie_genres="Horror", overview="movie2", poster_path="Data/movie2.jpg",
          release_date="1999-10-15", vote_average=5.0)
-        Movies.objects.create(movie_id=3, movie_id_tmdb=3, movie_title="title3",
+        m3 = Movies.objects.create(movie_id=3, movie_id_tmdb=3, movie_title="title3",
          movie_genres="Thriller", overview="movie3", poster_path="Data/movie3.jpg",
          release_date="1999-10-15", vote_average=5.0)
+        u1 = Users.objects.create(user_id=1, user_name="user1")
+        u37 = Users.objects.create(user_id=37, user_name="user37")
+        Responses.objects.create(respond_id=666, movie_id=m2, user_id=u37,
+         user_rate=3)
+        Responses.objects.create(respond_id=667, movie_id=m3, user_id=u37,
+         user_rate=0)
 
     def test_movie_get_genres_as_array(self):
         """Movie can return its genres as an array"""
@@ -104,3 +112,20 @@ class MoviesTestCase(TestCase):
         self.assertEqual(Movies.get_movies_by_genre('Horror', ['sth1']), [movie1,movie2])
         self.assertEqual(Movies.get_movies_by_genre('Thriller', ['Horror','Comedy']), [movie3])
         self.assertEqual(Movies.get_movies_by_genre('Thriller', []), [movie3])
+
+    def test_movie_get_movies_by_ids(self):
+        movie1 = Movies.objects.get(movie_title="title1")
+        movie2 = Movies.objects.get(movie_title="title2")
+        movie3 = Movies.objects.get(movie_title="title3")
+        self.assertEqual(Movies.get_movies_by_ids([]), [])
+        self.assertEqual(Movies.get_movies_by_ids([1]), [movie1])
+        self.assertEqual(Movies.get_movies_by_ids([1,3]), [movie1,movie3])
+
+    def test_movie_get_unassessed_movies(self):
+        responses_by_user0 = []
+        self.assertEqual(Movies.get_unassessed_movies(99, responses_by_user0, 3), [1,2,3])
+
+        response1 = Responses.objects.get(respond_id=666)
+        response2 = Responses.objects.get(respond_id=667)
+        responses_by_user37 = [response1,response2]
+        self.assertEqual(Movies.get_unassessed_movies(37, responses_by_user37, 3), [1,3])

@@ -21,11 +21,10 @@
 <br>
 {% endfor %}
 <br>
-<form action="." method="post">
-  {% csrf_token %}
-  <button name="button-name" value="fav_HTML" class="btn btn-primary btn-lg active pull-right" role="button" onclick="print_rate()">Rate</button>
-  <!-- // this and onclick="return save_ratings()" prevents the page
-  // from being refreshed and pointing to next movies category -->
-  <button name="button-name" value="fav_HTML" class="btn btn-primary btn-lg active pull-right" role="button" onclick="return save_ratings()">Rate and POST</button>
-</form>
+<button name="button-name" value="fav_HTML" class="btn btn-primary btn-lg active pull-right" role="button" onclick="print_rate()">Rate</button>
+
+<!-- the return in onclick function is needed, see also the body of that function  -->
+<!-- // this and onclick="return save_ratings()" prevents the page
+// from being refreshed and pointing to next movies category -->
+<button name="button-name" class="btn btn-primary btn-lg active pull-right" role="button" onclick="return save_ratings()">Rate and POST</button>
 {% endblock %}

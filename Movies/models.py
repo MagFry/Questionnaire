@@ -56,3 +56,26 @@ class Movies(models.Model):
             if movie.is_of_specific_genre(genre) and movie.excludes_specific_genres(excluded_genres_arr):
                 movies_to_be_returned.append(movie)
         return movies_to_be_returned
+
+    def get_movies_by_ids(movies_ids):
+        movies_in_db = Movies.objects.all()
+        movies_to_be_returned = []
+        for movie in movies_in_db:
+            if movie.movie_id in movies_ids:
+                movies_to_be_returned.append(movie)
+        return movies_to_be_returned
+
+    def get_unassessed_movies(user_id, responses_for_one_user, all_movies_count):
+        movies_ids = []
+        for i in range(all_movies_count):
+            movies_ids.append(i+1)
+
+        for response in responses_for_one_user:
+            movie_id = response.movie_id.movie_id
+            rating = response.user_rate
+            if rating != 0:
+                if movie_id in movies_ids:
+                    # movie id could be removed already
+                    movies_ids.remove(movie_id)
+
+        return movies_ids

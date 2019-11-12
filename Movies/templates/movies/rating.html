@@ -17,6 +17,10 @@ $(document).ready(function(){
 });
 </script>
 <script type="text/javascript">
+// This is needed is user presses F5 or a respective action
+// in a web browser.
+// However, this will not work if user has set nothing (did no input)
+// on that current page.
 window.addEventListener('beforeunload', function (e) {
   movie_ids = get_movie_ids()
   ratings = get_movies_ratings(window, movie_ids, false)
@@ -37,7 +41,7 @@ window.addEventListener('beforeunload', function (e) {
   <h5 style="margin-left: 3em;">Your name/Twoje imię: {{ request.session.user_name }}</h5>
 </div>
 <div class="row">
-  <h5 style="margin-left: 3em;">Your progress/Postęp: {{ request.session.movies_rated }}/200</h5>
+  <h5 style="margin-left: 3em;">Your progress/Postęp: {{ progress }}/200</h5>
 </div>
 
 <h2 style="text-align: center;">Movies of category: {{ category }}</h2>
@@ -81,10 +85,8 @@ window.addEventListener('beforeunload', function (e) {
 
 <div class="row">
 	  <div class="col-sm-12">
-      <form action="." method="post">
-        {% csrf_token %}
-        <button name="button-name" class="btn btn-primary btn-lg active pull-right" role="button" onclick="return save_ratings()">Next page</button>
-      </form>
+      <!-- the return in onclick function is needed, see also the body of that function  -->
+      <button name="button-name" class="btn btn-primary btn-lg active pull-right" role="button" onclick="return save_ratings()">Next page</button>
     </div>
 </div>
 {% endblock %}

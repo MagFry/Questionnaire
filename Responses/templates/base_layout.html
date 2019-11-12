@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+
+        <title>Questionnaire</title>
+
+        <!-- Required meta tags (mobile) -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <!-- Own CSS -->
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'movies/styles.css'%}" type="text/css">
+
+        <!-- Add icon library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% block head %}
+        {% endblock %}
+
+    </head>
+
+
+    <body>
+        <!-- In order to use AJAX from JQuery we cannot use the slim jquery version -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+        <!-- Image and text NAVIGATION BAR-->
+        <nav class="navbar navbar-light bg-light">
+
+            {% block navbar %}
+            {% endblock %}
+        </nav>
+
+
+        {% block content %}
+        {% endblock %}
+
+        <main class="footer-form">
+            <div class="container">
+                <h3></h3>
+                    <hr />
+                        <div class="text-center center-block">
+
+                            <br />
+                                <a href="https://www.facebook.com/"><i class="fa fa-facebook-square fa-3x social"></i></a>
+                                <a href="https://twitter.com/"><i class="fa fa-twitter-square fa-3x social"></i></a>
+                                <a href="https://plus.google.com/"><i class="fa fa-google-plus-square fa-3x social"></i></a>
+                                <a href="https://www.linkedin.com/"><i class="fa fa-linkedin-square fa-3x social"></i></a>
+                                <a href="https://www.instagram.com/"><i class="fa fa-instagram fa-3x social" aria-hidden="true"></i></a>
+                        </div>
+                     <hr />
+             </div>
+        </main>
+    </body>
+
+    {% block script %}
+    {% endblock %}
+
+</html>
