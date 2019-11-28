@@ -3,7 +3,7 @@ from Responses.models import Responses, UserMetadata, RespondMetadata
 from Users.models import Users
 from Movies.models import Movies
 from django.http import (HttpResponse, HttpResponseBadRequest,
-                         HttpResponseForbidden)
+                         HttpResponseForbidden, JsonResponse)
 from django.core.management.color import no_style
 from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
@@ -104,14 +104,23 @@ def db_repopulate(request):
             for resp in new_responds:
                 user_db_object = Users.objects.filter(user_id=resp.user_id)[0]
                 movie_db_object = Movies.objects.filter(movie_id=resp.movie_id)[0]
+                similar_responses = Responses.objects.all().filter(
+                    user_id=resp.user_id).filter(movie_id=resp.movie_id)
+                if len(similar_responses) != 0:
+                    return JsonResponse(
+                        {'my_message': 'Duplicated response for user: %s and movie: %s' % (resp.user_id, resp.movie_id),
+                        'my_status': 400})
                 Responses.objects.create(
                     user_id=user_db_object, movie_id=movie_db_object, user_rate=resp.user_rate)
 
             logger.info('Successfully repopulated db')
-            return HttpResponse('Successfully repopulated db')
+            return JsonResponse({'my_message': 'Successfully repopulated db',
+            'my_status': 200})
         except Exception as e:
             logger.error(traceback.print_exc())
             logger.error(e)
-            return HttpResponseBadRequest(traceback.print_exc())
+            return JsonResponse({'my_message': 'traceback.print_exc()',
+            'my_status': 400})
     else:
-        return HttpResponseBadRequest('Expected method POST or GET, got: %s' % request.method)
+        return JsonResponse({'my_message': 'Expected method POST or GET, got: %s' % request.method,
+        'my_status': 400})
