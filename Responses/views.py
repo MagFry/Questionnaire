@@ -26,17 +26,42 @@ def get_csv(request):
         else:
             csv += ("Invalid count of responses: %s for user: %s <br>" % (
                 len(responses_for_one_user), user.user_name))
-    responses = Responses.objects.all()
+
     csv += "respond_id" + delimiter + "user_id" + delimiter + \
+    "user_name" + delimiter + "movie_id" + delimiter + \
+    "movie_title" + delimiter + "user_rate"
+    for user in imp_users:
+        responses = Responses.objects.all().filter(user_id=user)
+        for response in responses:
+            rating = response.user_rate
+            if rating != -1:
+                # in our db rating is: 1-6 and -1 for not seen;
+                # the output must be: 0-5 and -1 for not seen;
+                rating = rating-1
+            if response.user_id.user_id in imp_users:
+                line = str(response.respond_id) + delimiter \
+                     + str(response.user_id.user_id) + delimiter \
+                     + str(response.user_id.user_name) + delimiter \
+                     + str(response.movie_id.movie_id) + delimiter \
+                     + str(response.movie_id.movie_title) + delimiter \
+                     + str(rating)
+                csv = csv + "<br>" + line
+    return HttpResponse(csv)
+
+def get_all_csv(request):
+    csv = "respond_id" + delimiter + "user_id" + delimiter + \
         "user_name" + delimiter + "movie_id" + delimiter + \
         "movie_title" + delimiter + "user_rate"
-    for response in responses:
-        rating = response.user_rate
-        if rating != -1:
-            # in our db rating is: 1-6 and -1 for not seen;
-            # the output must be: 0-5 and -1 for not seen;
-            rating = rating-1
-        if response.user_id.user_id in imp_users:
+
+    users = Users.objects.all()
+    for user in users:
+        responses = Responses.objects.all().filter(user_id=user.user_id)
+        for response in responses:
+            rating = response.user_rate
+            if rating != -1:
+                # in our db rating is: 1-6 and -1 for not seen;
+                # the output must be: 0-5 and -1 for not seen;
+                rating = rating-1
             line = str(response.respond_id) + delimiter \
                  + str(response.user_id.user_id) + delimiter \
                  + str(response.user_id.user_name) + delimiter \
@@ -44,27 +69,6 @@ def get_csv(request):
                  + str(response.movie_id.movie_title) + delimiter \
                  + str(rating)
             csv = csv + "<br>" + line
-    return HttpResponse(csv)
-
-def get_all_csv(request):
-    users = Users.objects.all()
-    responses = Responses.objects.all()
-    csv = "respond_id" + delimiter + "user_id" + delimiter + \
-        "user_name" + delimiter + "movie_id" + delimiter + \
-        "movie_title" + delimiter + "user_rate"
-    for response in responses:
-        rating = response.user_rate
-        if rating != -1:
-            # in our db rating is: 1-6 and -1 for not seen;
-            # the output must be: 0-5 and -1 for not seen;
-            rating = rating-1
-        line = str(response.respond_id) + delimiter \
-             + str(response.user_id.user_id) + delimiter \
-             + str(response.user_id.user_name) + delimiter \
-             + str(response.movie_id.movie_id) + delimiter \
-             + str(response.movie_id.movie_title) + delimiter \
-             + str(rating)
-        csv = csv + "<br>" + line
     return HttpResponse(csv)
 
 # Repopulate the db the input file of such format:
