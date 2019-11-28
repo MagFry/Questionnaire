@@ -90,8 +90,8 @@ def db_repopulate(request):
             for resp in old_respones:
                 resp.delete()
 
-            # reset the IDs in tables users and responses
-            sequence_sql = connection.ops.sequence_reset_sql(no_style(), [Users, Responses])
+            # reset the IDs in table responses
+            sequence_sql = connection.ops.sequence_reset_sql(no_style(), [Responses])
             with connection.cursor() as cursor:
                 for sql in sequence_sql:
                     cursor.execute(sql)
@@ -106,6 +106,7 @@ def db_repopulate(request):
                 movie_db_object = Movies.objects.filter(movie_id=resp.movie_id)[0]
                 Responses.objects.create(
                     user_id=user_db_object, movie_id=movie_db_object, user_rate=resp.user_rate)
+
             logger.info('Successfully repopulated db')
             return HttpResponse('Successfully repopulated db')
         except Exception as e:
