@@ -3,11 +3,11 @@ from Responses.models import Responses,UserMetadata,RespondMetadata
 
 class ResponsesTests(TestCase):
     def test_parse_from_csv_data(self):
-        data = """409,6,Magda,174,The Manchurian Candidate,-1
-410,6,Magda,194,There Will Be Blood,-1
-411,6,Magda,35,Die Hard,-1
-412,7,Ewa,7,Alien,3
-411,6,Magda,32,AAaa,71
+        data = """409;6;Magda;174;The Manchurian Candidate;-1
+410;6;Magda;194;There Will Be Blood;-1
+411;6;Magda;35;Die Hard;-1
+412;7;Ewa;7;Alien;3
+411;6;Magda;32;AAaa;71
 """
         new_responds, new_users = Responses.parse_from_csv_data(data)
         self.assertEqual(len(new_users), 2)
@@ -26,12 +26,12 @@ class ResponsesTests(TestCase):
         self.assertEqual(new_responds[3].user_rate, 4)
 
     def test_parse_from_csv_data2(self):
-        data = """respond_id,user_id,user_name,movie_id,movie_title,user_rate
-409,6,Magda,174,The Manchurian Candidate,-1
-410,6,Magda,194,There Will Be Blood,-1
-411,6,Magda,35,Die Hard,-1
-412,7,Ewa,7,Alien,3
-411,6,Magda,32,AAaa,71
+        data = """respond_id;user_id;user_name;movie_id;movie_title;user_rate
+409;6;Magda;174;The Manchurian Candidate;-1
+410;6;Magda;194;There Will Be Blood;-1
+411;6;Magda;35;Die Hard;-1
+412;7;Ewa;7;Alien;3
+411;6;Magda;32;AAaa;71
 """
         new_responds, new_users = Responses.parse_from_csv_data(data)
         self.assertEqual(len(new_users), 2)

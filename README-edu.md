@@ -53,3 +53,18 @@ heroku ps:exec -a piis-app
 ```
 
 https://devcenter.heroku.com/articles/heroku-cli-commands
+
+### connect with db
+```
+$ docker exec -ti piis_db_1 bash
+psql -h localhost -U postgres
+\connect Questionnaire
+# list tables
+\dt
+SELECT * FROM "Users_users";
+# list sequences
+SELECT c.relname FROM pg_class c WHERE c.relkind = 'S';
+# returns e.g.
+# Users_users_user_id_seq
+# Responses_responses_respond_id_seq
+```
