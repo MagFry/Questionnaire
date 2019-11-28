@@ -107,20 +107,22 @@ def db_repopulate(request):
                 similar_responses = Responses.objects.all().filter(
                     user_id=resp.user_id).filter(movie_id=resp.movie_id)
                 if len(similar_responses) != 0:
-                    return JsonResponse(
-                        {'my_message': 'Duplicated response for user: %s and movie: %s' % (resp.user_id, resp.movie_id),
-                        'my_status': 400})
+                    msg = 'Duplicated response for user: %s and movie: %s' % (resp.user_id, resp.movie_id)
+                    logger.error(msg)
+                    return JsonResponse({'my_message': msg, 'my_status': 400})
                 Responses.objects.create(
                     user_id=user_db_object, movie_id=movie_db_object, user_rate=resp.user_rate)
 
-            logger.info('Successfully repopulated db')
-            return JsonResponse({'my_message': 'Successfully repopulated db',
-            'my_status': 200})
+            msg = 'Successfully repopulated db'
+            logger.info(msg)
+            return JsonResponse({'my_message': msg, 'my_status': 200})
         except Exception as e:
             logger.error(traceback.print_exc())
             logger.error(e)
-            return JsonResponse({'my_message': 'traceback.print_exc()',
-            'my_status': 400})
+            msg = str(traceback.print_exc()) + '\n' + str(e)
+            logger.error(msg)
+            return JsonResponse({'my_message': msg, 'my_status': 400})
     else:
-        return JsonResponse({'my_message': 'Expected method POST or GET, got: %s' % request.method,
-        'my_status': 400})
+        msg = 'Expected method POST or GET, got: %s' % request.method
+        logger.error(msg)
+        return JsonResponse({'my_message': msg, 'my_status': 400})

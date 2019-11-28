@@ -22,6 +22,7 @@ function db_update(){
     csv_data: csv_data
   }
   my_post_data_str = JSON.stringify(my_post_data)
+  console.log("Starting to repopulate db");
   $.ajax({
     type: "POST",
     url: "/responses/db_repopulate/",

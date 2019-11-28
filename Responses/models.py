@@ -42,7 +42,7 @@ class Responses(models.Model):
                 continue
             line_split = line.split(Responses.get_delimiter())
             if len(line_split) != 6:
-                raise ValueError('Cannot parse from csv, line cannot be split into 6 parts')
+                raise ValueError('Cannot parse from csv, line: %s cannot be split into 6 parts' % line)
             # just add the responses in ascending order,
             # do not preserve the old response id
             respond_id = respond_id + 1
