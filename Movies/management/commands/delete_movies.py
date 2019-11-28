@@ -22,7 +22,8 @@ class Command(BaseCommand):
         for movie in movies:
             self.stdout.write('Deleting movie: "%s"' % movie.movie_title)
             # remove poster image
-            poster_path = media_dir + "/" + movie.poster_path
+            poster_path = media_dir + "/" + str(movie.movie_id_tmdb) + '.jpg'
+            print('aaaaaaaa')
             self.stdout.write('Deleting poster: "%s"' % poster_path)
             if os.path.isfile(poster_path):
                 os.remove(poster_path)

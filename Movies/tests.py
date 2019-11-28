@@ -45,17 +45,19 @@ class TmdbApiClient(TestCase):
     def test_download_poster(self):
         """Api Client can download poster image"""
         poster_path = 'adw6Lq9FiC9zjYEpOqfq03ituwp.jpg'
+        local_poster_path = '33.jpg'
         test_images_dir = 'test/media'
         # clean before test
         if os.path.isfile(test_images_dir+'/'+poster_path):
             os.remove(test_images_dir+'/'+poster_path)
         json = {}
         json['poster_path'] = poster_path
+        json['id'] = 33
         tmdb_api_client.download_poster(json, test_images_dir)
-        self.assertEqual(os.path.isfile(test_images_dir+'/'+poster_path), True)
+        self.assertEqual(os.path.isfile(test_images_dir+'/'+local_poster_path), True)
         # clean after test
-        if os.path.isfile(test_images_dir+'/'+poster_path):
-            os.remove(test_images_dir+'/'+poster_path)
+        if os.path.isfile(test_images_dir+'/'+local_poster_path):
+            os.remove(test_images_dir+'/'+local_poster_path)
 
     def test_get_polish_movie_details(self):
         """Api Client can get polish details about a movie"""
