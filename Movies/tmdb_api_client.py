@@ -5,6 +5,7 @@ import os.path
 url = "https://api.themoviedb.org/3"
 api_key_v3 = os.environ['TMDB_API_KEY']
 
+# https://developers.themoviedb.org/3/movies/get-movie-details
 def get_movie_json(movie_id, api_key):
     resp = requests.get(url+'/movie/'+str(movie_id)+'?api_key=' + api_key)
     if resp.status_code != 200:
@@ -36,11 +37,14 @@ def get_movie_genres_comma_separated(movie_json):
 # Returns bool, true if file was downloaded
 def download_poster(movie_json, images_dir):
     poster_file = movie_json['poster_path']
+    local_poster_path = str(movie_json['id']) + '.jpg'
     if os.path.isfile(images_dir+'/'+poster_file):
+        return False
+    elif os.path.isfile(images_dir+'/'+local_poster_path):
         return False
     else:
         resp = requests.get("https://image.tmdb.org/t/p/original/"+poster_file)
-        open(images_dir+"/"+poster_file, 'wb').write(resp.content)
+        open(images_dir+"/"+local_poster_path, 'wb').write(resp.content)
         return True
 
 def get_polish_movie_details(movie_id, api_key):

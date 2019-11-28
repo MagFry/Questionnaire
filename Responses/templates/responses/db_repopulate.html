@@ -22,22 +22,30 @@ function db_update(){
     csv_data: csv_data
   }
   my_post_data_str = JSON.stringify(my_post_data)
+  console.log("Starting to repopulate db");
   $.ajax({
     type: "POST",
     url: "/responses/db_repopulate/",
     data: my_post_data_str,
     // make it visible on your web browser developer tools
-    success: function(my_post_data_str){
-      console.log(my_post_data_str);
-      window.alert('success');
+    success: function(result){
+      if (result['my_status'] == 200) {
+        window.alert('success');
+        window.alert(result['my_message']);
+        console.log(result);
+      } else {
+        window.alert('error');
+        window.alert(result['my_message']);
+        console.log(result);
+      }
     },
-    error: function(my_post_data_str){
-      console.log(my_post_data_str);
-      // TODO: this is invoked even on success
-
-      //window.alert('error, see Django server logs');
+    error: function(result){
+      window.alert('a different error');
+      console.log(result);
+      window.alert(result['my_message']);
     },
-    dataType: 'JSON'
+    dataType: 'JSON',
+    contentType: "application/json"
   });
 }
 </script>

@@ -22,6 +22,9 @@ class Responses(models.Model):
     def __str__(self):
         return self.respond_id
 
+    def get_delimiter():
+        return ';'
+
     def user_in_users(users, user_id):
         for user in users:
             if user.user_id == user_id:
@@ -35,12 +38,13 @@ class Responses(models.Model):
         for line in data.split('\n'):
             if line == '':
                 continue
-            if line.startswith('respond_id,user_id'):
+            if line.startswith('respond_id'):
                 continue
-            line_split = line.split(',')
+            line_split = line.split(Responses.get_delimiter())
             if len(line_split) != 6:
-                raise ValueError('Cannot parse from csv, line cannot be split into 6 parts')
-            # respond_id = int(line_split[0])
+                raise ValueError('Cannot parse from csv, line: %s cannot be split into 6 parts' % line)
+            # just add the responses in ascending order,
+            # do not preserve the old response id
             respond_id = respond_id + 1
             user_id = int(line_split[1])
             user_name = line_split[2]
