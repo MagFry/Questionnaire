@@ -16,10 +16,14 @@ logger = logging.getLogger('questionnaire_logger')
 delimiter = Responses.get_delimiter()
 
 # in our db rating is: 1-6 and -1 for not seen;
-# the output must be: 0-5 and -1 for not seen;
+# the output must be: 0-5 and NULL for not seen;
 def our_rating_to_required_rating(our_rating):
     if our_rating == -1:
-        return "null"
+        return "NULL"
+    if our_rating >= 5:
+        return 5
+    if our_rating <= 0:
+        return 0
     return our_rating-1
 
 def get_csv(request):
