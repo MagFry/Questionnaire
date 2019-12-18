@@ -15,37 +15,44 @@ import json
 logger = logging.getLogger('questionnaire_logger')
 delimiter = Responses.get_delimiter()
 
+# in our db rating is: 1-6 and -1 for not seen;
+# the output must be: 0-5 and NULL for not seen;
+def our_rating_to_required_rating(our_rating):
+    if our_rating == -1:
+        return "NULL"
+    if our_rating >= 5:
+        return 5
+    if our_rating <= 0:
+        return 0
+    return our_rating-1
+
 def get_csv(request):
+    return get_csv_generic(request, False)
+
+def get_csv_curl_friendly(request):
+    return get_csv_generic(request, True)
+
+def get_csv_generic(request, curl_friendly):
     users = Users.objects.all()
     imp_users = []
+    if curl_friendly:
+        new_line = '\n'
+    else:
+        new_line = "<br>"
+    # csv = "respond_id;movie_id;user_id;rating" + new_line
     csv = ""
     for user in users:
-        responses_for_one_user = Responses.objects.all().filter(user_id=user.user_id)
+        responses_for_one_user = Responses.objects.filter(user_id=user.user_id)
         if len(responses_for_one_user) == 200:
-            imp_users.append(user.user_id)
-        else:
-            csv += ("Invalid count of responses: %s for user: %s <br>" % (
-                len(responses_for_one_user), user.user_name))
-
-    csv += "respond_id" + delimiter + "user_id" + delimiter + \
-    "user_name" + delimiter + "movie_id" + delimiter + \
-    "movie_title" + delimiter + "user_rate"
-    for user in imp_users:
-        responses = Responses.objects.all().filter(user_id=user)
-        for response in responses:
-            rating = response.user_rate
-            if rating != -1:
-                # in our db rating is: 1-6 and -1 for not seen;
-                # the output must be: 0-5 and -1 for not seen;
-                rating = rating-1
-            if response.user_id.user_id in imp_users:
+            for response in responses_for_one_user:
+                rating = our_rating_to_required_rating(response.user_rate)
+                # taking user_id from user is faster (user.user_id) than
+                # taking it this way: respond.user_id.user_id
                 line = str(response.respond_id) + delimiter \
-                     + str(response.user_id.user_id) + delimiter \
-                     + str(response.user_id.user_name) + delimiter \
                      + str(response.movie_id.movie_id) + delimiter \
-                     + str(response.movie_id.movie_title) + delimiter \
+                      + str(user.user_id) + delimiter \
                      + str(rating)
-                csv = csv + "<br>" + line
+                csv = csv  + line + new_line
     return HttpResponse(csv)
 
 def get_all_csv(request):
@@ -55,15 +62,17 @@ def get_all_csv(request):
 
     users = Users.objects.all()
     for user in users:
+        responses_for_one_user = Responses.objects.all().filter(user_id=user.user_id)
+        if len(responses_for_one_user) != 200:
+            csv += ("Invalid count of responses: %s for user: %s <br>" % (
+                len(responses_for_one_user), user.user_name))
+
+    for user in users:
         responses = Responses.objects.all().filter(user_id=user.user_id)
         for response in responses:
-            rating = response.user_rate
-            if rating != -1:
-                # in our db rating is: 1-6 and -1 for not seen;
-                # the output must be: 0-5 and -1 for not seen;
-                rating = rating-1
+            rating = our_rating_to_required_rating(response.user_rate)
             line = str(response.respond_id) + delimiter \
-                 + str(response.user_id.user_id) + delimiter \
+                 + str(user.user_id) + delimiter \
                  + str(response.user_id.user_name) + delimiter \
                  + str(response.movie_id.movie_id) + delimiter \
                  + str(response.movie_id.movie_title) + delimiter \
