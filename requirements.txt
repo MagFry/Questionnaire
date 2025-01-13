@@ -1,4 +1,4 @@
-virtualenv==16.6.1
+virtualenv==20.26.6
 requests
 django-cors-headers
 django
